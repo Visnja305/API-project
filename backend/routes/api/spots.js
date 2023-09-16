@@ -41,15 +41,36 @@ const validateData = [
   ];
 
 
+
 //get all spots
 router.get("/", async (req,res)=>{
-    const allSpots = await Spot.findAll(
-
-    );
+    const allSpots = await Spot.findAll();
 
 
-    return res.json(allSpots);
+    for(let i=0;i<allSpots.length;i++){
+        const currentReviewsStars=await allSpots[i].getReviews({
 
+                attributes:["stars"],
+             }
+        );
+        let sum=0;
+let count=0;
+for (let i=0;i<currentReviewsStars.length;i++){
+    sum+=currentReviewsStars[i].stars;
+    count++;
+
+
+}
+let avgRatingC=sum/count;
+
+const currObj=allSpots[i].dataValues;
+currObj["avgRating"]=avgRatingC;
+
+
+}
+
+
+return res.json(allSpots)
 });
 //get current user spots
 router.get("/current",requireAuth,async(req,res,next)=>{

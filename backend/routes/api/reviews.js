@@ -2,9 +2,22 @@ const express=require("express");
 
 const { Spot, User, Review, Image, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
+const validateData = [
+    check('review')
+      .exists({ checkFalsy: true })
+      .withMessage("Review text is required"),
+    check('stars')
+      .exists({ checkFalsy: true })
+      .isInt({ min: 1, max: 5 })
 
+      .withMessage("Stars must be an integer from 1 to 5"),
+
+    handleValidationErrors
+  ];
 router.get("/current",requireAuth,async(req,res,next)=>{
     const {user}=req;
     const allReviews=await user.getReviews({
@@ -30,11 +43,42 @@ router.get("/current",requireAuth,async(req,res,next)=>{
     });
     res.json(allReviews)
 });
-router.put("/:reviewId",requireAuth,async(req,res,next)=>{
-const review=await Review.findByPk(req.params.id);
-res.json(review)
+//edit a review
+router.put("/:reviewId",requireAuth,validateData,async(req,res,next)=>{
+    const {user}=req;
+const review=await Review.findByPk(req.params.reviewId);
+if(!review){
+    const err = new Error();
+            err.message="Review couldn't be found";
+        res.status(404);
+           res.json(err);
+}
+else if(user.id===review.userId){
+    const updatedReview = await review.update(req.body);
+
+    return res.json(updatedReview);
+}
+next();
 
 
+
+});
+router.delete("/:reviewId",requireAuth,async(req,res,next)=>{
+    const {user}=req;
+    const review=await Review.findByPk(req.params.reviewId);
+    if(!review){
+        const err = new Error();
+                err.message="Review couldn't be found";
+            res.status(404);
+               res.json(err);
+    }
+    else if(user.id===review.userId){
+        await review.destroy();
+
+    return res.json({ message: "Successfully deleted" });
+
+    }
+    next();
 })
 
 
