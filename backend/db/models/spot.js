@@ -26,11 +26,15 @@ module.exports = (sequelize, DataTypes) => {
             imageableType: "Spot",
         },
     });
+    Spot.hasMany(
+      models.Booking,
+        { foreignKey: "spotId", onDelete: "CASCADE",  hooks: true }
+    );
 
 
 }
 
-    
+
   }
   Spot.init({
     ownerId: DataTypes.INTEGER,

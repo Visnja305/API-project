@@ -80,6 +80,46 @@ router.delete("/:reviewId",requireAuth,async(req,res,next)=>{
     }
     next();
 })
+//add an image to a review based on review id
+router.post("/:reviewId/images",requireAuth,async(req,res,next)=>{
+const {user}=req;
+const review=await Review.findByPk(req.params.reviewId);
+if(!review){
+    const err = new Error();
+            err.title="Couldn't find a Review with the specified id";
+            err.message="Review couldn't be found";
+            res.status(404);
+          return res.json(err);
+};
+const reviewImages=await review.getImages();
+if(reviewImages.length>=10){
+    const err = new Error();
+    err.title="Cannot add any more images because there is a maximum of 10 images per resource";
+    err.message="Maximum number of images for this resource was reached";
+            res.status(403);
+          return res.json(err);
+}
+const obj=review.dataValues;
+const {url}=req.body;
 
+if(obj.userId===user.id){
+    const newImage= await Image.create({url:url,preview:true,imageableId:req.params.reviewId,imageableType:"Review"});
+    const newImageObj=newImage.dataValues;
+    const image=await Image.findOne({
+        where:{
+            id:newImageObj.id,
+        },
+        attributes:["id","url"]
+    });
+return res.json(image);
+}
+if(obj.userId!==user.id){
+    const err = new Error();
+    err.message="Forbidden";
+            res.status(403);
+          return res.json(err);
+}
+next();
+})
 
 module.exports = router;
