@@ -22,11 +22,11 @@ const validateData = [
       .withMessage("Country is required"),
       check('lat')
       .exists({ checkFalsy: true })
-      .isLength({ min: 6 })
+      .isDecimal({min:-90,max:90})
       .withMessage("Latitude is not valid"),
       check('lng')
       .exists({ checkFalsy: true })
-      .isLength({ min: 6 })
+      .isDecimal({min:-180,max:180})
       .withMessage("Longitude is not valid"),
       check('name')
       .exists({ checkFalsy: true })
@@ -41,13 +41,120 @@ const validateData = [
     handleValidationErrors
   ];
 
+  const validateDataForGetSpots = [
+    check('page')
+
+    .optional({ checkFalsy: true })
+
+      .isInt({ min:1})
+
+      .withMessage("Page must be greater than or equal to 1"),
+    check('size')
+
+    .optional({ checkFalsy: true })
+      .isInt({min:1})
+      .withMessage("Size must be greater than or equal to 1"),
+
+      check('maxLat')
+      .optional({ checkFalsy: true })
+
+      .isFloat({min:-90,max:90})
+
+      .withMessage("Maximum latitude is not valid"),
+      check('minLat')
+      .optional({ checkFalsy: true })
+
+      .isFloat({min:-90,max:90})
+
+      .withMessage("Minimum latitude is not valid"),
+      check('minLng')
+      .optional({ checkFalsy: true })
+      .isFloat({min:-180,max:180})
+      .withMessage("Minimum longitude is not valid"),
+      check('maxLng')
+      .optional({ checkFalsy: true })
+      .isFloat({min:-180,max:180})
+      .withMessage("Maximum longitude is not valid"),
+       check('minPrice')
+       .optional({ checkFalsy: true })
+.isDecimal({min:0})
+      .withMessage("Minimum price must be greater than or equal to 0"),
+      check("maxPrice")
+     .optional({ checkFalsy: true })
+      .isFloat({min:0})
+      .withMessage("Maximum price must be greater than or equal to 0"),
+    handleValidationErrors
+  ];
+
 
 
 //get all spots
-router.get("/", async (req,res)=>{
+router.get("/", validateDataForGetSpots,async (req,res,next)=>{
+    const {
+        minLat,
+        maxLat,
+        minLng,
+        maxLng,
+        minPrice,
+        maxPrice,
 
-    const allSpots = await Spot.findAll();
+       } = req.query;
+let{page,size}=req.query;
+    
+    const where={};
+    if (page) {
+        page = Number(page);
+        if(page>10){
+            page=10;
+        }
+    }
+    if(!page)
+    {
+        page = 1;
+    }
+    if (size) {
+        size = Number(size);
+        if(size>20){
+            size=20;
+        }
+    }
+    if(!size)
+    {
+        size = 20;
+    }
 
+
+    if (page >= 1 && size >= 1) {
+        req.query.limit = size;
+        req.query.offset = size * (page - 1);
+    }
+
+if(minLat||maxLat||minLng||maxLng||minPrice||maxPrice){
+       if (minLat) {
+        where.lat = {[Op.gt]:minLat}
+    }
+    if (maxLat) {
+        where.lat = {[Op.lt]:maxLat}
+
+    }
+    if (minLng) {
+        where.lng = {[Op.gt]:minLng};
+
+    }
+    if (maxLng) {
+        where.lng = {[Op.lt]:maxLng}
+
+    }
+    if (minPrice) {
+        where.price = {[Op.gt]:minPrice}
+
+    }
+    if (maxPrice) {
+        where.price = {[Op.lt]: maxPrice}
+    }
+    const allSpots= await Spot.findAll({
+        where,
+    })
     for(let i=0;i<allSpots.length;i++){
         const currentReviewsStars=await allSpots[i].getReviews({
 
@@ -84,6 +191,51 @@ for(let i=0;i<allSpots.length;i++){
 
 
 
+
+
+    return res.json({allSpots})
+
+
+
+}
+
+
+
+ const allSpots = await Spot.findAll();
+
+    for(let i=0;i<allSpots.length;i++){
+        const currentReviewsStars=await allSpots[i].getReviews({
+
+                attributes:["stars"],
+             }
+        );
+        let sum=0;
+let count=0;
+for (let i=0;i<currentReviewsStars.length;i++){
+    sum+=currentReviewsStars[i].stars;
+    count++;
+}
+let avgRatingC=sum/count;
+const currObj=allSpots[i].dataValues;
+currObj["avgRating"]=avgRatingC;
+}
+for(let i=0;i<allSpots.length;i++){
+
+    const currentImage=await allSpots[i].getImages({
+
+            attributes:["preview","url"],
+         }
+    );
+    const urlArr=[];
+    for(let i=0;i<currentImage.length;i++){
+    if(currentImage[i].preview===true){
+        urlArr.push(currentImage[i].url)
+    }
+
+    }
+    const currObj=allSpots[i].dataValues;
+        currObj["previewImage"]=urlArr
+        }
 return res.json(allSpots)
 });
 //get current user spots
