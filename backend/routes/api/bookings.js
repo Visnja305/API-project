@@ -20,6 +20,15 @@ router.put("/:bookingsId",requireAuth,async(req,res,next)=>{
     const{user}=req;
     const currUser=await User.findByPk(user.id);
     const booking=await Booking.findByPk(req.params.bookingsId);
+    if(!booking){
+        const err = new Error();
+        err.title="Couldn't find a Booking with the specified id";
+        err.message="Booking couldn't be found";
+    res.status(404);
+
+       return res.json(err);
+}
+
     if(booking){
     const obj=booking.dataValues;
 
@@ -98,18 +107,19 @@ endDate:{
     }
     if(obj.userId===user.id){
         const updatedBooking = await booking.update({startDate:newStartDate,endDate:newEndDate});
-       res.json(updatedBooking);
+       return res.json(updatedBooking);
+    }
+    if(obj.userId!==user.id){
+        const err = new Error();
+        err.title="Require proper authorization";
+        err.message="Forbidden";
+    res.status(403);
+
+       return res.json(err);
     }
 
 }
-else{
-    const err = new Error();
-        err.title="Couldn't find a Booking with the specified id";
-        err.message="Booking couldn't be found";
-    res.status(404);
 
-       return res.json(err);
-}
     next();
 });
 //delete a booking

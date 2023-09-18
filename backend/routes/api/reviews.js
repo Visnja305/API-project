@@ -53,10 +53,18 @@ if(!review){
         res.status(404);
            res.json(err);
 }
-else if(user.id===review.userId){
+if(user.id===review.userId){
     const updatedReview = await review.update(req.body);
 
     return res.json(updatedReview);
+}
+if(user.id!==review.userId){
+    const err = new Error();
+    err.title="Require proper authorization";
+    err.message="Forbidden";
+res.status(403);
+
+   return res.json(err);
 }
 next();
 
@@ -68,15 +76,24 @@ router.delete("/:reviewId",requireAuth,async(req,res,next)=>{
     const review=await Review.findByPk(req.params.reviewId);
     if(!review){
         const err = new Error();
+        err.title="Couldn't find a Review with the specified id";
                 err.message="Review couldn't be found";
             res.status(404);
                res.json(err);
     }
-    else if(user.id===review.userId){
+    if(user.id===review.userId){
         await review.destroy();
 
     return res.json({ message: "Successfully deleted" });
 
+    }
+    if(user.id!==review.userId){
+        const err = new Error();
+        err.title="Require proper authorization";
+        err.message="Forbidden";
+    res.status(403);
+
+       return res.json(err);
     }
     next();
 })
@@ -111,13 +128,16 @@ if(obj.userId===user.id){
         },
         attributes:["id","url"]
     });
+
 return res.json(image);
 }
 if(obj.userId!==user.id){
     const err = new Error();
+    err.title="Require proper authorization";
     err.message="Forbidden";
-            res.status(403);
-          return res.json(err);
+res.status(403);
+
+   return res.json(err);
 }
 next();
 })
