@@ -180,12 +180,34 @@ return res.json(newReview)
 });
 //delete a spot
 router.delete("/:spotId", async (req, res) => {
-    const spot = await Spot.findByPk(req.params.spotId);
 
+    const {user}=req;
+    const spot = await Spot.findByPk(req.params.spotId);
+    if(!spot){
+        const err = new Error();
+        err.title="Couldn't find a Spot with the specified id";
+        err.message="Spot couldn't be found";
+    res.status(404);
+return res.json(err)
+    }
+const spotObj=spot.dataValues;
+const spotOwner=spotObj.ownerId;
+if(spotOwner===user.id){
     await spot.destroy();
 
     return res.json({ message: "Successfully deleted" });
+}
+if(spotOwner!==user.id){
+    const err = new Error();
+    err.title="Require proper authorization";
+    err.message="Forbidden";
+res.status(403);
+
+   return res.json(err);
+}
+next()
 });
+
 //edit a spot
 router.put("/:id",requireAuth,validateData,async (req,res,next) => {
     const spot = await Spot.findByPk(req.params.id);
