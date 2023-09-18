@@ -5,6 +5,18 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       // define association here
+      User.hasMany(
+        models.Spot,
+          { foreignKey: "ownerId", onDelete: "CASCADE",  hooks: true }
+      );
+      User.hasMany(
+        models.Review,
+          { foreignKey: "userId", onDelete: "CASCADE",  hooks: true }
+      );
+      User.hasMany(
+        models.Booking,
+          { foreignKey: "userId", onDelete: "CASCADE",  hooks: true }
+      );
     }
   };
 
@@ -33,10 +45,12 @@ module.exports = (sequelize, DataTypes) => {
       firstName:{
         type: DataTypes.STRING,
         allowNull: false,
+
       },
       lastName:{
         type: DataTypes.STRING,
         allowNull: false,
+
       },
       hashedPassword: {
         type: DataTypes.STRING.BINARY,
