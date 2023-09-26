@@ -1,18 +1,16 @@
-# [title]
+# [API-project]
 
 ## Database Schema Design
 
-![db-schema]
 
-[db-schema]: ./images/AirbnbProject.png
+![db:schema](Markdown/DB-schema.png)
+
 
 ## API Documentation
 
-# `<name of application here>`
+# `AirBnb-project`
 
-## Database Schema Design
 
-`<insert database schema design here>`
 
 ## API Documentation
 
