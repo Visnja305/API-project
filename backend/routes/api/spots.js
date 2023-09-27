@@ -70,14 +70,16 @@ const validateData = [
       check('minLng')
       .optional({ checkFalsy: true })
       .isFloat({min:-180,max:180})
+
       .withMessage("Minimum longitude is not valid"),
+
       check('maxLng')
       .optional({ checkFalsy: true })
       .isFloat({min:-180,max:180})
       .withMessage("Maximum longitude is not valid"),
        check('minPrice')
        .optional({ checkFalsy: true })
-.isDecimal({min:0})
+       .isFloat({min:0})
       .withMessage("Minimum price must be greater than or equal to 0"),
       check("maxPrice")
      .optional({ checkFalsy: true })
@@ -114,6 +116,9 @@ router.get("/", validateDataForGetSpots,async (req,res,next)=>{
        } = req.query;
 let{page,size}=req.query;
 
+
+
+if(minLat||maxLat||minLng||maxLng||minPrice||maxPrice||page||size){
     const where={};
     if (page) {
         page = Number(page);
@@ -136,13 +141,15 @@ let{page,size}=req.query;
         size = 20;
     }
 
-
+    const pagination = {};
     if (page >= 1 && size >= 1) {
-        req.query.limit = size;
-        req.query.offset = size * (page - 1);
+        pagination.limit = size;
+        pagination.offset = size * (page - 1);
     }
 
-if(minLat||maxLat||minLng||maxLng||minPrice||maxPrice){
+
+
+
        if (minLat) {
         where.lat = {[Op.gt]:minLat}
     }
@@ -167,6 +174,7 @@ if(minLat||maxLat||minLng||maxLng||minPrice||maxPrice){
     }
     const allSpots= await Spot.findAll({
         where,
+        ...pagination
     })
     for(let i=0;i<allSpots.length;i++){
         const currentReviewsStars=await allSpots[i].getReviews({
@@ -199,14 +207,22 @@ for(let i=0;i<allSpots.length;i++){
 
     }
     const currObj=allSpots[i].dataValues;
+    if(urlArr.length!==0){
         currObj["previewImage"]=urlArr
         }
+        if(urlArr.length===0){
+            currObj["previewImage"]="There is no preview image";
+        }
+    }
 
 
 
 
 
-    return res.json({allSpots})
+    return res.json({"Spots":allSpots,
+"page":page,
+"size":size
+})
 
 
 
@@ -247,9 +263,14 @@ for(let i=0;i<allSpots.length;i++){
 
     }
     const currObj=allSpots[i].dataValues;
+    if(urlArr.length!==0){
         currObj["previewImage"]=urlArr
         }
-return res.json(allSpots)
+        if(urlArr.length===0){
+            currObj["previewImage"]="There is no preview image";
+        }
+    }
+return res.json({"Spots":allSpots})
 });
 //get current user spots
 router.get("/current",requireAuth,async(req,res,next)=>{
