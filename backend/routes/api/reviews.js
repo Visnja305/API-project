@@ -20,6 +20,7 @@ const validateData = [
   ];
 router.get("/current",requireAuth,async(req,res,next)=>{
     const {user}=req;
+
     const allReviews=await user.getReviews({
         include: [{
             model: User,
@@ -41,7 +42,50 @@ router.get("/current",requireAuth,async(req,res,next)=>{
 
     ]
     });
-    res.json(allReviews)
+
+for(let i=0;i<allReviews.length;i++){
+    const currSpotId=allReviews[i].dataValues.spotId;
+const spot= await Spot.findByPk(currSpotId);
+const currentImage=await spot.getImages({
+
+        attributes:["preview","url","id"],
+     }
+);
+const urlArr=[];
+for(let i=0;i<currentImage.length;i++){
+if(currentImage[i].preview===true){
+    urlArr.push({
+
+        "url":currentImage[i].url,
+        })
+
+
+
+}
+}
+const currObjJ=allReviews[i].Spot.dataValues;
+if(urlArr.length===0){
+    currObjJ["previewImage"]="There are no available images."
+}
+if(urlArr.length!==0){
+    currObjJ["previewImage"]=urlArr
+}
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+    res.json({"Reviews":allReviews})
 });
 //edit a review
 router.put("/:reviewId",requireAuth,validateData,async(req,res,next)=>{
@@ -49,6 +93,7 @@ router.put("/:reviewId",requireAuth,validateData,async(req,res,next)=>{
 const review=await Review.findByPk(req.params.reviewId);
 if(!review){
     const err = new Error();
+    err.title="Couldn't find a Review with the specified id";
             err.message="Review couldn't be found";
         res.status(404);
            res.json(err);

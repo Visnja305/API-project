@@ -22,11 +22,12 @@ const validateData = [
       .withMessage("Country is required"),
       check('lat')
       .exists({ checkFalsy: true })
-      .isDecimal({min:-90,max:90})
+
+      .isFloat({min:-90,max:90})
       .withMessage("Latitude is not valid"),
       check('lng')
       .exists({ checkFalsy: true })
-      .isDecimal({min:-180,max:180})
+      .isFloat({min:-180,max:180})
       .withMessage("Longitude is not valid"),
       check('name')
       .exists({ checkFalsy: true })
@@ -208,7 +209,7 @@ for(let i=0;i<allSpots.length;i++){
     }
     const currObj=allSpots[i].dataValues;
     if(urlArr.length!==0){
-        currObj["previewImage"]=urlArr
+        currObj["previewImage"]=urlArr.toString()
         }
         if(urlArr.length===0){
             currObj["previewImage"]="There is no preview image";
@@ -264,22 +265,70 @@ for(let i=0;i<allSpots.length;i++){
     }
     const currObj=allSpots[i].dataValues;
     if(urlArr.length!==0){
-        currObj["previewImage"]=urlArr
+        currObj["previewImage"]=urlArr.toString()
         }
         if(urlArr.length===0){
             currObj["previewImage"]="There is no preview image";
         }
+
+
+
     }
 return res.json({"Spots":allSpots})
 });
 //get current user spots
-router.get("/current",requireAuth,async(req,res,next)=>{
+router.get("/current",requireAuth,async(req,res)=>{
 const {user}=req;
+
 
 const currentUser=await User.findByPk(user.id);
 const allSpots=await currentUser.getSpots();
+for(let i=0;i<allSpots.length;i++){
+    const currentReviewsStars=await allSpots[i].getReviews({
 
- return res.json(allSpots);
+            attributes:["stars"],
+         }
+    );
+    let sum=0;
+let count=0;
+for (let i=0;i<currentReviewsStars.length;i++){
+sum+=currentReviewsStars[i].stars;
+count++;
+}
+let avgRatingC=sum/count;
+const currObj=allSpots[i].dataValues;
+currObj["avgRating"]=avgRatingC;
+}
+for(let i=0;i<allSpots.length;i++){
+
+const currentImage=await allSpots[i].getImages({
+
+        attributes:["preview","url"],
+     }
+);
+const urlArr=[];
+for(let i=0;i<currentImage.length;i++){
+if(currentImage[i].preview===true){
+    urlArr.push(currentImage[i].url)
+}
+
+}
+const currObj=allSpots[i].dataValues;
+if(urlArr.length!==0){
+    currObj["previewImage"]=urlArr.toString()
+    }
+    if(urlArr.length===0){
+        currObj["previewImage"]="There is no preview image";
+    }
+
+
+
+}
+
+if(allSpots.length===0){
+    return res.json({message:"There are no spots owned by the current user"});
+}
+ return res.json({"Spots":allSpots});
 });
 //create new spot
 router.post("/",requireAuth,validateData,async(req,res,next)=>{
@@ -320,17 +369,23 @@ currObj["avgRating"]=avgRatingC;
     );
     const urlArr=[];
     for(let i=0;i<currentImage.length;i++){
-
+if(currentImage[i].preview===true){
         urlArr.push({
+            "id":currentImage[i].id,
             "url":currentImage[i].url,
-        "id":currentImage[i].id,
-        "preview":currentImage[i].preview})
+            "preview":currentImage[i].preview})
 
 
 
     }
+}
     const currObjJ=spot.dataValues;
-        currObjJ["previewImage"]=urlArr
+    if(urlArr.length===0){
+        currObjJ["SpotImages"]="There are no available images."
+    }
+    if(urlArr.length!==0){
+        currObjJ["SpotImages"]=urlArr
+    }
 const theOwnerId=currObj.ownerId;
 const theOwner=await User.findByPk(theOwnerId);
 const ownerObj=theOwner.dataValues;
@@ -380,7 +435,7 @@ const reviews= await spot.getReviews({
 
 }
 );
-return res.json(reviews);
+return res.json({"Reviews":reviews});
     }
     if(!spot){
         const err = new Error();
@@ -421,10 +476,11 @@ res.status(500);
    return res.json(err);
 }
 const newReview= await Review.create({userId:userId,spotId:spotId,review:review,stars:stars})
+res.status(201)
 return res.json(newReview)
 });
 //delete a spot
-router.delete("/:spotId", async (req, res) => {
+router.delete("/:spotId",requireAuth, async (req, res) => {
 
     const {user}=req;
     const spot = await Spot.findByPk(req.params.spotId);
@@ -535,7 +591,9 @@ router.post("/:spotId/bookings",requireAuth,async(req,res,next)=>{
         err.message="Spot couldn't be found";
         res.status(404);
         return res.json(err);}
+
     const searchedSpot=spot.dataValues;
+
      if(searchedSpot.ownerId===user.id){
         const err = new Error();
         err.title="Require proper authorization";
@@ -612,7 +670,7 @@ endDate:{
      if (newEndDate<=newStartDate) {
         const err = new Error();
         err.title="Bad request";
-        err.message="endDate cannot be on or before startDate";
+        err.errors={"endDate":"endDate cannot be on or before startDate"};
     res.status(400);
 
        return res.json(err);
@@ -632,26 +690,35 @@ router.get("/:spotId/bookings",requireAuth,async(req,res,next)=>{
 
 const {user}=req;
 const spot=await Spot.findByPk(req.params.spotId);
-const obj=spot.dataValues;
-console.log(obj);
-if(obj.ownerId===user.id){
-   const bookings= await spot.getBookings({
-    include: [{
-        model: User,
-        attributes:["id", "firstName","lastName"],
-    },]
-   });
-    return res.json({"Bookings":bookings})
-}
-else if(obj.ownerId!==user.id){
-    const err = new Error();
-    err.title="Require proper authorization";
-            err.message="Forbidden";
-        res.status(403);
 
-           return res.json(err);
+if(!spot){
+    const err = new Error();
+    err.title="Couldn't find a Spot with the specified id";
+    err.message="Spot couldn't be found";
+res.status(404);
+
+   return res.json(err);
 }
-next()
+const obj=spot.dataValues;
+
+if(obj.ownerId===user.id){
+    const bookings= await spot.getBookings({
+        include: [{
+            model: User,
+            attributes:["id", "firstName","lastName"],
+        },]
+       });
+        return res.json({"Bookings":bookings})
+}
+if(obj.ownerId!==user.id){
+    const bookings= await spot.getBookings({
+        attributes:["spotId","startDate","endDate"]
+       });
+        return res.json({"Bookings":bookings})
+
+
+}
+
 })
 
 //sjjlk

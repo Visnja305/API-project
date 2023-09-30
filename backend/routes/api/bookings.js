@@ -11,8 +11,35 @@ const router = express.Router();
 router.get("/current",requireAuth, async (req,res)=>{
 const{user}=req;
 const currUser=await User.findByPk(user.id);
-const allBookings=await currUser.getBookings();
-return res.json(allBookings);
+const allBookings=await currUser.getBookings({
+    include: [{
+        model: Spot,
+
+    },]
+});
+for(let i=0;i<allBookings.length;i++){
+    const spotId=allBookings[i].dataValues.Spot.dataValues.id;
+    const spot=await Spot.findByPk(spotId);
+
+   const images=await spot.getImages();
+    const urlArr=[];
+
+    for(let i=0;i<images.length;i++){
+        if(images[i].preview===true){
+            urlArr.push(images[i].url)
+        }
+    }
+    if (urlArr.length===0){
+        allBookings[i].dataValues.Spot.dataValues.previewImage="There is no preview image";
+    }
+    if(urlArr.length!==0){
+    allBookings[i].dataValues.Spot.dataValues.previewImage=urlArr;
+}
+
+}
+
+
+return res.json({"Bookings":allBookings});
 
 });
 //edit a booking
