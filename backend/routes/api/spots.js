@@ -265,7 +265,7 @@ for(let i=0;i<allSpots.length;i++){
     }
     const currObj=allSpots[i].dataValues;
     if(urlArr.length!==0){
-        currObj["previewImage"]=urlArr.toString()
+        currObj["previewImage"]=urlArr;
         }
         if(urlArr.length===0){
             currObj["previewImage"]="There is no preview image";
@@ -315,7 +315,7 @@ if(currentImage[i].preview===true){
 }
 const currObj=allSpots[i].dataValues;
 if(urlArr.length!==0){
-    currObj["previewImage"]=urlArr.toString()
+    currObj["previewImage"]=urlArr;
     }
     if(urlArr.length===0){
         currObj["previewImage"]="There is no preview image";
