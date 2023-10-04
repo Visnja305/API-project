@@ -39,6 +39,10 @@ const validateData = [
       check('price')
       .exists({ checkFalsy: true })
       .withMessage("Price per day is required"),
+      check('price')
+      .optional({ checkFalsy: true })
+      .isFloat({min:0})
+     .withMessage("Price must be greater than or equal to 0"),
     handleValidationErrors
   ];
 
@@ -426,7 +430,7 @@ const reviews= await spot.getReviews({
 
     },
     {
-        model:Image,
+        model:Image,as:"ReviewImages",
         attributes:["id","url"]
 
     }
