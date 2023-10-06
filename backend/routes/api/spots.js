@@ -177,6 +177,27 @@ if(minLat||maxLat||minLng||maxLng||minPrice||maxPrice||page||size){
     if (maxPrice) {
         where.price = {[Op.lt]: maxPrice}
     }
+
+if(minLat && maxLat){
+    where.lat={
+    [Op.between]:[minLat,maxLat]
+    }
+}
+if(minLng && maxLng){
+    where.lng={
+    [Op.between]:[minLng,maxLng]
+    }
+}
+if(minPrice && maxPrice){
+    where.price={
+    [Op.between]:[minPrice,maxPrice]
+    }
+}
+
+
+
+
+
     const allSpots= await Spot.findAll({
         where,
         ...pagination
