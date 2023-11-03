@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         scope: {
             imageableType: "Review",
         },
+         as:"ReviewImages"
     });
     }
   }
@@ -35,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Review',
-    
+
   });
   return Review;
 };

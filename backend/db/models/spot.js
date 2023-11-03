@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         scope: {
             imageableType: "Spot",
         },
+       // as:"SpotImages"
     });
     Spot.hasMany(
       models.Booking,

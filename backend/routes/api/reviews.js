@@ -35,7 +35,7 @@ router.get("/current",requireAuth,async(req,res,next)=>{
         },
 
         {
-            model:Image,
+            model:Image,as:"ReviewImages",
             attributes:["id","url"]
 
         }
@@ -153,7 +153,7 @@ if(!review){
             res.status(404);
           return res.json(err);
 };
-const reviewImages=await review.getImages();
+const reviewImages=await review.getReviewImages();
 if(reviewImages.length>=10){
     const err = new Error();
     err.title="Cannot add any more images because there is a maximum of 10 images per resource";

@@ -87,35 +87,35 @@ res.status(403);
 {
 
 startDate:{
-    [Op.between]:[startDate,endDate]
+    [Op.between]:[newStartDate,newEndDate]
 },
 endDate:{
-    [Op.gte]:startDate
+    [Op.gte]:newStartDate
 }
 
 },
 {
 startDate:{
-    [Op.lte]:endDate
+    [Op.lte]:newEndDate
 },
 endDate:{
-    [Op.gte]:startDate
+    [Op.gte]:newStartDate
 }
 },
 {
 startDate:{
-    [Op.lte]:endDate
+    [Op.lte]:newEndDate
 },
 endDate:{
-    [Op.between]:[startDate,endDate]
+    [Op.between]:[newStartDate,newEndDate]
 }
 },
 {
     startDate:{
-        [Op.between]:[startDate,endDate]
+        [Op.between]:[newStartDate,newEndDate]
         },
         endDate:{
-        [Op.between]:[startDate,endDate]
+        [Op.between]:[newStartDate,newEndDate]
         }
 
 

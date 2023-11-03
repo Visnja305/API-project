@@ -39,6 +39,10 @@ const validateData = [
       check('price')
       .exists({ checkFalsy: true })
       .withMessage("Price per day is required"),
+      check('price')
+      .optional({ checkFalsy: true })
+      .isFloat({min:0})
+     .withMessage("Price must be greater than or equal to 0"),
     handleValidationErrors
   ];
 
@@ -173,6 +177,27 @@ if(minLat||maxLat||minLng||maxLng||minPrice||maxPrice||page||size){
     if (maxPrice) {
         where.price = {[Op.lt]: maxPrice}
     }
+
+if(minLat && maxLat){
+    where.lat={
+    [Op.between]:[minLat,maxLat]
+    }
+}
+if(minLng && maxLng){
+    where.lng={
+    [Op.between]:[minLng,maxLng]
+    }
+}
+if(minPrice && maxPrice){
+    where.price={
+    [Op.between]:[minPrice,maxPrice]
+    }
+}
+
+
+
+
+
     const allSpots= await Spot.findAll({
         where,
         ...pagination
@@ -426,7 +451,7 @@ const reviews= await spot.getReviews({
 
     },
     {
-        model:Image,
+        model:Image,as:"ReviewImages",
         attributes:["id","url"]
 
     }
