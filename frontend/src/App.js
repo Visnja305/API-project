@@ -35,10 +35,11 @@ export default App;
 
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Switch } from "react-router-dom";
+
+import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-
+import SpotsList from "./components/SpotsList";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -50,9 +51,16 @@ function App() {
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Switch></Switch>}
+      <div>
+      <Switch>
+          <Route path="/">
+            <SpotsList />
+          </Route>
+          </Switch>
+      </div>
     </>
+
   );
 }
 
 export default App;
-
