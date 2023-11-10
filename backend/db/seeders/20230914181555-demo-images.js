@@ -35,8 +35,8 @@ module.exports = {
           imageableType:"Review",
         },
         {
-          url:"",
-          preview:false,
+          url:"https://tinyurl.com/2fy5nfec",
+          preview:true,
           imageableId:3,
           imageableType:"Spot",
         }

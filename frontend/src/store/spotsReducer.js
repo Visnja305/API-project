@@ -1,6 +1,7 @@
 import { csrfFetch } from "./csrf";
 
 const GET_SPOTS = "spots/getSpots";
+const GET_DETAILS="spots/spotDetails"
 
 
 const getSpots = (spots) => {
@@ -10,6 +11,13 @@ const getSpots = (spots) => {
 
   };
 };
+const spotDetails=(spot)=>{
+
+  return{
+    type: GET_DETAILS,
+    spot
+  }
+}
 
 export const fetchSpots = () => async (dispatch) => {
     const response = await fetch("/api/spots");
@@ -19,16 +27,33 @@ export const fetchSpots = () => async (dispatch) => {
     return spots
     };
 
+export const getSpotDetails=(spotId)=>async(dispatch)=>{
+
+  const res=await fetch(`/api/spots/${spotId}`);
+  if(res.ok){
+
+    const spot=await res.json();
+
+    dispatch(spotDetails(spot));
+    return spot;
+  }
+  return res
+}
 
 
 
 
-const initialState = { entries: [], isLoading: true };
-const spotsReducer = (state=initialState, action) => {
+const spotsReducer = (state={}, action) => {
     switch (action.type) {
         case GET_SPOTS:
-const allSpots=action.spots.Spots
-        return { ...state, entries: [...allSpots] };
+const spotsState={...state};
+action.spots.Spots.forEach((spot)=>{
+  spotsState[spot.id]=spot;
+})
+        return spotsState;
+case GET_DETAILS:
+  return {...state,[action.spot.id]:action.spot}
+
 
         default:
             return state;

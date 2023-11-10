@@ -237,7 +237,7 @@ for(let i=0;i<allSpots.length;i++){
         currObj["previewImage"]=urlArr.toString()
         }
         if(urlArr.length===0){
-            currObj["previewImage"]="There is no preview image";
+            currObj["previewImage"]="Preview image not available";
         }
     }
 
