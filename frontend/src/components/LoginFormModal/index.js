@@ -68,7 +68,8 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-
+  const [actiavted,setActivated]=useState(false)
+  console.log(credential)
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -81,6 +82,14 @@ function LoginFormModal() {
         }
       });
   };
+  const onClick=(e)=>{
+    setCredential("DemoUser");
+    setPassword("password5");
+  }
+
+
+
+
 
   return (
     <>
@@ -93,6 +102,7 @@ function LoginFormModal() {
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
+
           />
         </label>
         <label>
@@ -107,7 +117,9 @@ function LoginFormModal() {
         {errors.credential && (
           <p>{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+
+        <button type="submit" disabled={credential.length<=3 || password.length<=5}>Log In</button>
+        <button type="submit" onClick={onClick} >Demo user</button>
       </form>
     </>
   );

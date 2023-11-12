@@ -1,7 +1,8 @@
 import { csrfFetch } from "./csrf";
 
 const GET_SPOTS = "spots/getSpots";
-const GET_DETAILS="spots/spotDetails"
+const GET_DETAILS="spots/spotDetails";
+const RECEIVE_SPOT="spots/createNew"
 
 
 const getSpots = (spots) => {
@@ -17,6 +18,13 @@ const spotDetails=(spot)=>{
     type: GET_DETAILS,
     spot
   }
+}
+const receiveSpot=(data)=>{
+
+  return{
+    type: RECEIVE_SPOT,
+    data
+}
 }
 
 export const fetchSpots = () => async (dispatch) => {
@@ -40,6 +48,46 @@ export const getSpotDetails=(spotId)=>async(dispatch)=>{
   return res
 }
 
+export const createNewSpot=(payload,previewImage)=> async(dispatch)=>{
+
+  const res = await csrfFetch ("/api/spots", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload.payload),
+});
+
+if (res.ok){
+    const data = await res.json();
+
+    const spotId=data.id;
+
+
+    const response=await csrfFetch (`/api/spots/${spotId}/images`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({url:previewImage.previewImage, preview:true}),
+  });
+  if(response.ok){
+    const dataNew = await response.json();
+    console.log(dataNew)
+
+    const theSpot = await fetch(`/api/spots/${spotId}`);
+if(theSpot.ok){
+    const newSpot = await theSpot.json();
+    dispatch(receiveSpot(newSpot))
+    return newSpot
+}
+    
+return dataNew
+  }
+
+
+    return data;
+
+}
+return res;
+
+}
 
 
 
@@ -53,6 +101,8 @@ action.spots.Spots.forEach((spot)=>{
         return spotsState;
 case GET_DETAILS:
   return {...state,[action.spot.id]:action.spot}
+  case RECEIVE_SPOT:
+    return { ...state, [action.data.id]: action.data };
 
 
         default:

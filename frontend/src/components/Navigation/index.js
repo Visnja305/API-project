@@ -99,14 +99,19 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-
+import icon from '/Users/milanvracaric/Desktop/redux/API-Project-2ndPart/frontend/src/assets/icon.ico'
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
   return (
     <ul>
       <li>
+
+      <img src={icon} />
+      </li>
+      <li>
         <NavLink exact to="/">Home</NavLink>
+        <NavLink to="/spots/new">Create a new spot</NavLink>
       </li>
       {isLoaded && (
         <li>
@@ -118,4 +123,4 @@ function Navigation({ isLoaded }){
 }
 
 export default Navigation;
-
+//<i class="fa-brands fa-airbnb" rotation={180} style={{color: "#ff2600",}} />

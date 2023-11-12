@@ -28,8 +28,9 @@ return  (
     {console.log(review.User.firstName)}
 {review.User.firstName}
 <br/>
-{review.updatedAt.slice(5,7)}
+<span>{`${review.updatedAt.slice(5,7)} ${review.updatedAt.slice(0,4)} `}</span>
 <br/>
+<p>{review.review}</p>
     </li>
 
  ))} </ul>

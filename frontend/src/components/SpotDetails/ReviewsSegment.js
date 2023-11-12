@@ -14,7 +14,7 @@ const {spotId}=useParams();
     const dispatch=useDispatch();
     const reviews= useSelector((state) => state.reviewsState.entries[spotId]);
     const [isLoading,setIsLoading]=useState(true);
-
+    if(!isLoading){console.log(Object.values(reviews))}
 
 
 useEffect(()=>{
@@ -25,13 +25,6 @@ return  (
   <div>
  <h3>{!isLoading && Object.values(reviews)[0].length} reviews</h3>
   </div>
-
-
-
-
-    )
+ )
 }
-
-
-
 export default ReviewsSegment;

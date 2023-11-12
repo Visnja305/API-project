@@ -21,24 +21,35 @@ const validateData = [
       .exists({ checkFalsy: true })
       .withMessage("Country is required"),
       check('lat')
-      .exists({ checkFalsy: true })
+.exists({ checkFalsy: true })
+.optional({ checkFalsy: true })
 
-      .isFloat({min:-90,max:90})
-      .withMessage("Latitude is not valid"),
-      check('lng')
-      .exists({ checkFalsy: true })
-      .isFloat({min:-180,max:180})
-      .withMessage("Longitude is not valid"),
+.isFloat({min:-90,max:90})
+.withMessage("Latitude is not valid"),
+check('lng')
+.optional({ checkFalsy: true })
+.exists({ checkFalsy: true })
+.isFloat({min:-180,max:180})
+.withMessage("Longitude is not valid"),
+
+
       check('name')
       .exists({ checkFalsy: true })
       .isLength({ max: 50 })
-      .withMessage("Name must be less than 50 characters"),
+      .withMessage("Name must be less then 50 characters"),
+
+      check('name')
+      .exists({ checkFalsy: true })
+
+      .withMessage("Name is required"),
+
       check('description')
       .exists({ checkFalsy: true })
-      .withMessage("Description is required"),
+      .isLength({ min: 30 })
+      .withMessage("Description needs a minimum of 30 characters"),
       check('price')
       .exists({ checkFalsy: true })
-      .withMessage("Price per day is required"),
+      .withMessage("Price is required"),
       check('price')
       .optional({ checkFalsy: true })
       .isFloat({min:0})
@@ -749,3 +760,16 @@ if(obj.ownerId!==user.id){
 //sjjlk
 
 module.exports = router;
+
+
+/*  check('lat')
+.exists({ checkFalsy: true })
+
+.isFloat({min:-90,max:90})
+.withMessage("Latitude is not valid"),
+check('lng')
+.exists({ checkFalsy: true })
+.isFloat({min:-180,max:180})
+.withMessage("Longitude is not valid"),
+
+*/

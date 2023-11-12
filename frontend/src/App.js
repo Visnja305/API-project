@@ -40,7 +40,8 @@ import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotsList from "./components/SpotsList";
-import SpotDetails from "./components/SpotDetails"
+import SpotDetails from "./components/SpotDetails";
+import CreateASpot from "./components/CreateASpot"
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -56,10 +57,15 @@ function App() {
       <Switch>
           <Route exact path="/">
             <SpotsList />
+</Route>
+<Route path="/spots/new">
+<CreateASpot />
           </Route>
           <Route path="/spots/:spotId">
 <SpotDetails />
           </Route>
+
+
           </Switch>
       </div>
     </>
