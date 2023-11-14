@@ -7,7 +7,8 @@ import {getSpotReviews} from "../../store/spotsReducer";
 import "./SpotDetails.css";
 import ReviewsSegment from "./ReviewsSegment";
 import ReviewsList from "./ReviewsList";
-
+import OpenModalButton from '../OpenModalButton';
+import PostReviewModal from '../PostReviewModal';
 const SpotDetails = () => {
     const { spotId } = useParams();
 
@@ -58,7 +59,11 @@ return  (
         <h3><i className="fa-solid fa-star" />{!isLoading && !spot.avgRating && "New" }{!isLoading && spot.avgRating }</h3>
            <ReviewsSegment props={spotId}/>
            <div>
-{ !isLoading && currUser.user!==null && currUser.user.id!==currSpot.ownerId && arr.length===0 && <button>Post your review</button>}
+{ !isLoading && currUser.user!==null && currUser.user.id!==currSpot.ownerId && arr.length===0 && <OpenModalButton
+                buttonText="Post your review"
+
+                modalComponent={<PostReviewModal />}
+              />}
 {!isLoading && currUser.user!==null && currUser.user.id!==currSpot.ownerId && Object.values(reviews)[0].length===0 && <p>Be the first to post a review!</p>}
   </div>
 
