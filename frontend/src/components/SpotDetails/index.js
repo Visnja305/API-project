@@ -7,6 +7,7 @@ import {getSpotReviews} from "../../store/spotsReducer";
 import "./SpotDetails.css";
 import ReviewsSegment from "./ReviewsSegment";
 import ReviewsList from "./ReviewsList";
+
 const SpotDetails = () => {
     const { spotId } = useParams();
 
@@ -20,8 +21,11 @@ useEffect(()=>{
     dispatch(getSpotDetails(spotId)).then(()=>setIsLoading(false))
 
 },[dispatch,spotId])
-
-
+const handleClick=()=>{
+    window.alert("Feature Coming Soon...")
+}
+const currUser=useSelector((state) => state.session);
+const currSpot=useSelector((state)=>state.spotsState[spotId]);
 return  (
    (<div>
         <h1>{!isLoading && spot.name}</h1>
@@ -34,14 +38,23 @@ return  (
 </div>
         <div>
             <h3>{!isLoading && `$ ${spot.price} night`}</h3>
-            <h3><i className="fa-solid fa-star" />{!isLoading && spot.avgRating }</h3>
+            <h3><i className="fa-solid fa-star" />{!isLoading && !spot.avgRating && "New" }{!isLoading && spot.avgRating }</h3>
            <ReviewsSegment props={spotId}/>
+           <button onClick={handleClick} >Reserve</button>
 
         </div>
         </div>
-        <h3><i className="fa-solid fa-star" />{!isLoading && spot.avgRating }</h3>
+        <h3><i className="fa-solid fa-star" />{!isLoading && !spot.avgRating && "New" }{!isLoading && spot.avgRating }</h3>
            <ReviewsSegment props={spotId}/>
+           <div>
+{currUser.user!==null && currUser.user.id!==currSpot.ownerId && <button>Post your review</button>}
+
+  </div>
+
+
 <ReviewsList props={spotId}/>
+
+
 
 
         </div>)

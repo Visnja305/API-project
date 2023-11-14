@@ -68,7 +68,7 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-  const [actiavted,setActivated]=useState(false)
+  
   console.log(credential)
   const handleSubmit = (e) => {
     e.preventDefault();

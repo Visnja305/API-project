@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-//import { Redirect } from "react-router-dom";
+
 import "./CreateASpot.css";
 import { createNewSpot } from "../../store/spotsReducer";
+import { useHistory, Redirect } from 'react-router-dom';
+
 
 function CreateASpot() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
@@ -18,6 +21,10 @@ function CreateASpot() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [previewImage,setPreviewImage]=useState("");
+  const [image1,setImage1]=useState("");
+  const [image2,setImage2]=useState("");
+  const [image3,setImage3]=useState("");
+  const [image4,setImage4]=useState("");
   const [errors, setErrors] = useState({});
   const [validationErrors, setValidationErrors]=useState({});
 
@@ -31,6 +38,38 @@ const err = {};
 
         setValidationErrors(err);
     return}
+    /*if(previewImage.slice(-4)!==".png" && previewImage.slice(-4)!==".jpg" && previewImage.slice(-5)!==".jpeg"){
+        err.previewImage = "Image URL must end in .png, .jpg, or .jpeg";
+
+        setValidationErrors(err);
+    return
+    }
+    */
+    if(image1.length && image1.slice(-4)!==".png" && image1.slice(-4)!==".jpg" && image1.slice(-5)!==".jpeg"){
+        err.image1 = "Image URL must end in .png, .jpg, or .jpeg";
+
+        setValidationErrors(err);
+    return
+    }
+    if(image2.length && image2.slice(-4)!==".png" && image2.slice(-4)!==".jpg" && image2.slice(-5)!==".jpeg"){
+        err.image2 = "Image URL must end in .png, .jpg, or .jpeg";
+
+        setValidationErrors(err);
+    return
+    }
+    if(image3.length && image3.slice(-4)!==".png" && image3.slice(-4)!==".jpg" && image3.slice(-5)!==".jpeg"){
+        err.image3 = "Image URL must end in .png, .jpg, or .jpeg";
+
+        setValidationErrors(err);
+    return
+    }
+    if(image4.length && image4.slice(-4)!==".png" && image4.slice(-4)!==".jpg" && image4.slice(-5)!==".jpeg"){
+        err.image4 = "Image URL must end in .png, .jpg, or .jpeg";
+
+        setValidationErrors(err);
+    return
+    }
+
 
 
 
@@ -39,13 +78,23 @@ const err = {};
     const payload={
         country, address, city, state, lat, lng, description, name, price
     }
+let images={};
+if(image1){images.image1=image1};
+if(image2){images.image2=image2};
+if(image3){images.image3=image3};
+if(image4){images.image4=image4};
 
-     dispatch(createNewSpot({ payload},{previewImage})).catch(
+let theId
+   dispatch(createNewSpot({ payload},{previewImage},{images})).then(newSpot=>history.push(`/spots/${newSpot.id}`)).catch(
       async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-            setErrors(data.errors);
+
+        const myData = await res.json();
+
+
+        if (myData && myData.errors) {
+            setErrors(myData.errors);
          };
+
 });
 
 setCountry("");
@@ -56,8 +105,12 @@ setLat("");
 setLng("");
 setDescription("");
 setName("");
-setPrice("")
-setPreviewImage("")
+setPrice("");
+setPreviewImage("");
+setImage1("");
+setImage2("");
+setImage3("");
+setImage4("");
 }
 
 
@@ -171,7 +224,7 @@ setPreviewImage("")
             <div className="errors">{errors.price}</div>
             <h2>Liven up your spot with photos</h2>
             <h3>Submit a link to at least one photo to publish your spot.</h3>
-             <div className="errors">{validationErrors.previewImage}</div>
+
               <label>
                 Preview Image:
             <input
@@ -181,7 +234,41 @@ setPreviewImage("")
             onChange={(e) => setPreviewImage(e.target.value)}
             placeholder="Preview Image URL"
              />
+             <div className="errors">{validationErrors.previewImage}</div>
 </label>
+<input
+            type="text"
+            value={image1}
+
+            onChange={(e) => setImage1(e.target.value)}
+            placeholder="Image URL"
+             />
+             <div className="errors">{validationErrors.image1}</div>
+             <input
+            type="text"
+            value={image2}
+
+            onChange={(e) => setImage2(e.target.value)}
+            placeholder="Image URL"
+             />
+             <div className="errors">{validationErrors.image2}</div>
+             <input
+            type="text"
+            value={image3}
+
+            onChange={(e) => setImage3(e.target.value)}
+            placeholder="Image URL"
+             />
+             <div className="errors">{validationErrors.image3}</div>
+             <input
+            type="text"
+            value={image4}
+
+            onChange={(e) => setImage4(e.target.value)}
+            placeholder="Image URL"
+             />
+             <div className="errors">{validationErrors.image4}</div>
+
             <button type="submit" >Create Spot</button>
         </form>
         </>
@@ -189,3 +276,6 @@ setPreviewImage("")
 }
 
 export default CreateASpot;
+
+
+//if () return (<Redirect to="/" />);
