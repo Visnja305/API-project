@@ -26,7 +26,17 @@ const handleClick=()=>{
 }
 const currUser=useSelector((state) => state.session);
 const currSpot=useSelector((state)=>state.spotsState[spotId]);
-const reviews= useSelector((state) => state.reviewsState.entries[spotId])
+const reviews= useSelector((state) => state.reviewsState.entries[spotId]);
+let arr=[];
+if(!isLoading && currUser.user){
+
+    for (let i=0;i<Object.values(reviews)[0].length;i++){
+
+
+    if (Object.values(reviews)[0][i].User.id===currUser.user.id){arr.push(Object.values(reviews)[0][i])}
+   }
+
+}
 return  (
    (<div>
         <h1>{!isLoading && spot.name}</h1>
@@ -48,7 +58,7 @@ return  (
         <h3><i className="fa-solid fa-star" />{!isLoading && !spot.avgRating && "New" }{!isLoading && spot.avgRating }</h3>
            <ReviewsSegment props={spotId}/>
            <div>
-{currUser.user!==null && currUser.user.id!==currSpot.ownerId && <button>Post your review</button>}
+{ !isLoading && currUser.user!==null && currUser.user.id!==currSpot.ownerId && arr.length===0 && <button>Post your review</button>}
 {!isLoading && currUser.user!==null && currUser.user.id!==currSpot.ownerId && Object.values(reviews)[0].length===0 && <p>Be the first to post a review!</p>}
   </div>
 
