@@ -105,12 +105,9 @@ function Navigation({ isLoaded }){
 
   return (
     <ul>
-      <li>
 
-      <img src={icon} />
-      </li>
       <li>
-        <NavLink exact to="/">Home</NavLink>
+        <NavLink exact to="/"><i class="fa-brands fa-airbnb" rotation={180} style={{color:"#fb0909",}}></i></NavLink>
         <NavLink to="/spots/new">Create a new spot</NavLink>
       </li>
       {isLoaded && (

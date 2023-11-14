@@ -26,6 +26,7 @@ const handleClick=()=>{
 }
 const currUser=useSelector((state) => state.session);
 const currSpot=useSelector((state)=>state.spotsState[spotId]);
+const reviews= useSelector((state) => state.reviewsState.entries[spotId])
 return  (
    (<div>
         <h1>{!isLoading && spot.name}</h1>
@@ -48,7 +49,7 @@ return  (
            <ReviewsSegment props={spotId}/>
            <div>
 {currUser.user!==null && currUser.user.id!==currSpot.ownerId && <button>Post your review</button>}
-
+{!isLoading && currUser.user!==null && currUser.user.id!==currSpot.ownerId && Object.values(reviews)[0].length===0 && <p>Be the first to post a review!</p>}
   </div>
 
 
