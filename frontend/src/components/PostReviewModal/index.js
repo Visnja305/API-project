@@ -3,15 +3,26 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./PostReview.css";
+import {FaStar} from "react-icons/fa"
+
+
+
 
 function LoginFormModal() {
   const dispatch = useDispatch();
   const [description, setDescription] = useState("");
-
-  const [errors, setErrors] = useState({});
+const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+const [rating,setRating]=useState(null)
+const [rateColor,setColor]=useState(null)
 
 
+
+
+
+
+
+/*
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -24,7 +35,7 @@ function LoginFormModal() {
         }
       });
   };
-
+*/
 
 
 
@@ -33,7 +44,7 @@ function LoginFormModal() {
   return (
     <>
       <h1>How was your stay?</h1>
-      <form onSubmit={handleSubmit}>
+      <form >
       {errors.description && (
           <p>{errors.description}</p>)}
       <textarea
@@ -42,9 +53,33 @@ function LoginFormModal() {
                     placeholder=" Leave your review here..."
                 />
 
+<span>
+{[...Array(5)].map((star,index)=>{
+const currentRate=index+1
+return(
+<>
+<label>
+<input class="radio_item" type="radio" name="rate" value={currentRate}  onClick ={()=>setRating(currentRate)
+  }/>
+  <FaStar size={50} color={currentRate <= (rateColor || rating) ? "yellow" : "grey"}/>
+</label>
+  </>
+)
+}
 
-        <button type="submit" disabled={description.length<=9 || password.length<=5}>Log In</button>
-        <button type="submit" onClick={onClick} >Demo user</button>
+
+
+)}
+    </span>
+
+
+
+
+
+
+
+        <button type="submit" disabled={ description.length<=9 }>Submit</button>
+
       </form>
     </>
   );
