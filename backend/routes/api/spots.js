@@ -511,7 +511,7 @@ if(checking){
 res.status(500);
    return res.json(err);
 }
-const newReview= await Review.create({userId:userId,spotId:spotId,review:review,stars:stars})
+const newReview= await Review.create({userId:userId,spotId:parseInt(spotId),review:review,stars:stars})
 res.status(201)
 return res.json(newReview)
 });
