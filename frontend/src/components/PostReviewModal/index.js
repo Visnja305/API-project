@@ -5,37 +5,42 @@ import { useModal } from "../../context/Modal";
 import "./PostReview.css";
 import {FaStar} from "react-icons/fa"
 
+import {postReviewForSpot} from "../../store/reviewsReducer";
 
+import { useHistory} from 'react-router-dom';
+function PostReviewModal(props) {
+  const spotId=props.props.props.spotId;
 
+  const userId=props.props.props.currUser.user.id;
+  const history=useHistory();
 
-function LoginFormModal() {
   const dispatch = useDispatch();
-  const [description, setDescription] = useState("");
+  const [review, setReview] = useState("");
 const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-const [rating,setRating]=useState(null)
+const [stars,setStars]=useState(null)
 const [rateColor,setColor]=useState(null)
 
 
 
 
 
-
-
-/*
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
-    return dispatch(sessionActions.login({ credential, password }))
-      .then(closeModal)
-      .catch(async (res) => {
+    const payload={
+      spotId:spotId,
+      userId:userId,
+      review:review,
+      stars:stars
+    }
+    dispatch(postReviewForSpot({ payload })).then(closeModal).catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
           setErrors(data.errors);
         }
       });
   };
-*/
 
 
 
@@ -44,24 +49,24 @@ const [rateColor,setColor]=useState(null)
   return (
     <>
       <h1>How was your stay?</h1>
-      <form >
-      {errors.description && (
-          <p>{errors.description}</p>)}
+      <form onSubmit={handleSubmit} >
+      {errors.review && (
+          <p>{errors.review}</p>)}
       <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
                     placeholder=" Leave your review here..."
                 />
 
-<span>
+<div>
 {[...Array(5)].map((star,index)=>{
 const currentRate=index+1
 return(
 <>
-<label>
-<input class="radio_item" type="radio" name="rate" value={currentRate}  onClick ={()=>setRating(currentRate)
+<label >
+<input key={index+1} className="radio_item" type="radio" name="rate" value={currentRate}  onClick ={()=>setStars(currentRate)
   }/>
-  <FaStar size={50} color={currentRate <= (rateColor || rating) ? "yellow" : "grey"}/>
+  <FaStar size={50} color={currentRate <= (rateColor || stars) ? "yellow" : "grey"}/>
 </label>
   </>
 )
@@ -70,7 +75,7 @@ return(
 
 
 )}
-    </span>
+    </div>
 
 
 
@@ -78,11 +83,11 @@ return(
 
 
 
-        <button type="submit" disabled={ description.length<=9 }>Submit</button>
+        <button type="submit" disabled={ review.length<=9 || !stars}>Submit</button>
 
       </form>
     </>
   );
 }
 
-export default LoginFormModal;
+export default PostReviewModal;

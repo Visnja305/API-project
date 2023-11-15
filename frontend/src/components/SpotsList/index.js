@@ -10,7 +10,7 @@ const SpotsList = () => {
 
     const spotsS=Object.values(spots);
     const [isLoaded,setIsLoaded]=useState(false)
-console.log(spotsS)
+
     useEffect(() => {
 
     dispatch(fetchSpots()).then(()=>setIsLoaded(true))

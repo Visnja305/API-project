@@ -99,7 +99,6 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import icon from '/Users/milanvracaric/Desktop/redux/API-Project-2ndPart/frontend/src/assets/icon.ico'
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 

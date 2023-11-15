@@ -14,7 +14,7 @@ const {spotId}=useParams();
     const dispatch=useDispatch();
     const reviews= useSelector((state) => state.reviewsState.entries[spotId]);
     const [isLoading,setIsLoading]=useState(true);
-    
+
 
 
 useEffect(()=>{
@@ -25,7 +25,7 @@ dispatch(getSpotReviews(spotId)).then(()=>setIsLoading(false));
 
 return  (
   <div>
- <h3>{!isLoading && Object.values(reviews)[0].length===0 && ""}{!isLoading && Object.values(reviews)[0].length>0 && `${Object.values(reviews)[0].length} reviews`}</h3>
+ <h3>{!isLoading && Object.values(reviews)[0].length===0 && ""}{!isLoading && Object.values(reviews)[0].length===1 && `${Object.values(reviews)[0].length} review`}{!isLoading && Object.values(reviews)[0].length>1 && `${Object.values(reviews)[0].length} reviews`}</h3>
 
   </div>
 

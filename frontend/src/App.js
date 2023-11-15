@@ -41,7 +41,10 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotsList from "./components/SpotsList";
 import SpotDetails from "./components/SpotDetails";
-import CreateASpot from "./components/CreateASpot"
+import CreateASpot from "./components/CreateASpot";
+import ManageSpots from "./components/ManageSpots";
+import EditPage from "./components/EditPage"
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -58,12 +61,22 @@ function App() {
           <Route exact path="/">
             <SpotsList />
 </Route>
-<Route path="/spots/new">
+<Route path="/spots/:id/edit">
+            <EditPage />
+          </Route>
+<Route exact path="/spots/current">
+<ManageSpots />
+          </Route>
+<Route exact path="/spots/new">
 <CreateASpot />
           </Route>
-          <Route path="/spots/:spotId">
+          <Route path="/spots/:spotId(\d+)">
 <SpotDetails />
           </Route>
+
+
+
+
 
 
           </Switch>
