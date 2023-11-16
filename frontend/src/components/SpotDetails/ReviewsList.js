@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom"
 
 import {getSpotReviews} from "../../store/reviewsReducer";
 import "./ReviewsList.css";
+import OpenModalButton from '../OpenModalButton';
+import DeleteReviewModal from '../DeleteReviewModal';
 const ReviewsList = ({props}) => {
 const {spotId}=useParams();
 
@@ -13,6 +15,11 @@ const {spotId}=useParams();
 
     const dispatch=useDispatch();
     const reviews= useSelector((state) => state.reviewsState.entries[spotId]);
+    const user=useSelector((state)=>state.session.user);
+    let currUserId
+   if(user){
+    currUserId=user.id;
+}
     const [isLoading,setIsLoading]=useState(true);
 
 
@@ -30,7 +37,7 @@ reviewArr.push(Object.values(reviews)[0][i]);
 
  }
 }
-!isLoading && console.log(reviewArr)
+
 
 
 
@@ -38,13 +45,22 @@ return  (
   <div>
  <ul>
  {!isLoading && reviewArr.map(review=>(
+
 <li key={review.id}>
-    {console.log(review.User.firstName)}
+{console.log(review)}
 {review.User.firstName}
 <br/>
 <span>{`${review.updatedAt.slice(5,7)} ${review.updatedAt.slice(0,4)} `}</span>
 <br/>
 <p>{review.review}</p>
+{ !isLoading  && currUserId===review.userId &&
+<OpenModalButton
+                buttonText="Delete"
+
+                modalComponent={<DeleteReviewModal props={{spotId,review}}/>}
+              />}
+
+
     </li>
 
  ))}
@@ -60,5 +76,3 @@ return  (
 
 
 export default ReviewsList;
-
-

@@ -6,7 +6,8 @@ import "./ManageSpots.css";
 import { fetchSpots } from "../../store/spotsReducer";
 import {restoreUser} from "../../store/session"
 import { useHistory} from 'react-router-dom';
-
+import OpenModalButton from '../OpenModalButton';
+import DeleteSpotModal from '../DeleteSpotModal';
 const ManageSpots = () => {
     const [isLoaded,setIsLoaded]=useState(false);
     const user= useSelector((state) => state.session.user);
@@ -42,12 +43,21 @@ return  (
     <ul>
 {isLoaded && arr.map((spot)=>(
 <li key={spot.id}>
+
 <Link to={`/spots/${spot.id}`}> <img src={spot.previewImage[0]}/></Link>
               <br/>
               <span>{spot.city} {spot.state} <i className="fa-solid fa-star" /> {spot.avgRating}</span>
               <br/>
               <span>${spot.price} night</span>
-             <div> <span><button onClick={(e)=>history.push(`/spots/${spot.id}/edit`)}>Update</button><button>Delete</button></span></div>
+             <div> <span><button onClick={(e)=>history.push(`/spots/${spot.id}/edit`)}>Update</button>
+
+             <OpenModalButton
+                buttonText="Delete"
+
+                modalComponent={<DeleteSpotModal props={spot}/>}
+              />
+
+             </span></div>
 </li>
 
 

@@ -4,7 +4,7 @@ const GET_SPOTS = "spots/getSpots";
 const GET_DETAILS="spots/spotDetails";
 const RECEIVE_SPOT="spots/createNew"
 const UPDATE_SPOT="spots/updateSpot"
-
+const DELETE_SPOT="spots/deleteSpot"
 const getSpots = (spots) => {
   return {
     type: GET_SPOTS,
@@ -32,6 +32,14 @@ const updateSpot=(data,theId)=>{
   return{
     type:UPDATE_SPOT,
     data,theId
+  }
+}
+
+const deleteSpot=(spotId)=>{
+
+  return{
+    type:DELETE_SPOT,
+    spotId
   }
 }
 
@@ -182,13 +190,35 @@ console.log(newPayload)
 });
 if(response.ok ){
   const data = await response.json();
-  console.log(data)
+
   dispatch(updateSpot(data, theId));
 return data
 }
 
 return response
 }
+
+
+export const deleteTheSpot=(spotId)=> async(dispatch)=>{
+console.log(spotId)
+
+
+
+    const response=await csrfFetch(`/api/spots/${spotId}`, {
+      method: "DELETE",
+
+  });
+  if(response.ok ){
+    const data = await response.json();
+
+    dispatch(deleteSpot(spotId));
+  return data
+  }
+
+  return response
+  }
+
+
 
 const spotsReducer = (state={}, action) => {
     switch (action.type) {
@@ -205,6 +235,12 @@ case GET_DETAILS:
 
 case UPDATE_SPOT:
   return {...state, [action.theId]: action.data}
+
+  case DELETE_SPOT:
+    const newState = { ...state };
+            delete newState[action.spotId];
+            return newState;
+
         default:
             return state;
     }
