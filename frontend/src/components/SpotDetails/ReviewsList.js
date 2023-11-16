@@ -1,7 +1,7 @@
 
 import {  useSelector, useDispatch } from "react-redux";
 import {useState,useEffect} from "react";
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 
 
 import {getSpotReviews} from "../../store/reviewsReducer";
@@ -10,7 +10,7 @@ import OpenModalButton from '../OpenModalButton';
 import DeleteReviewModal from '../DeleteReviewModal';
 const ReviewsList = ({props}) => {
 const {spotId}=useParams();
-
+const history=useHistory();
 
 
     const dispatch=useDispatch();
@@ -58,6 +58,7 @@ return  (
                 buttonText="Delete"
 
                 modalComponent={<DeleteReviewModal props={{spotId,review}}/>}
+                
               />}
 
 

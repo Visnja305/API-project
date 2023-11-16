@@ -9,12 +9,19 @@ import { useHistory} from 'react-router-dom';
 import OpenModalButton from '../OpenModalButton';
 import DeleteSpotModal from '../DeleteSpotModal';
 const ManageSpots = () => {
+    const history = useHistory();
+    const dispatch = useDispatch();
     const [isLoaded,setIsLoaded]=useState(false);
     const user= useSelector((state) => state.session.user);
+    const spots= useSelector((state) => state.spotsState);
 
-    const history = useHistory();
-const dispatch = useDispatch();
-const spots= useSelector((state) => state.spotsState);
+    
+    useEffect(() => {
+
+        dispatch(fetchSpots()).then(()=>setIsLoaded(true))
+
+        }, [dispatch]);
+        if(isLoaded && !user){return history.push(`/`)};
 
 const spotsS=Object.values(spots);
 let arr=[];
@@ -28,11 +35,7 @@ arr.push(spotsS[i])
 
 
 
-useEffect(() => {
 
-dispatch(fetchSpots()).then(()=>dispatch(restoreUser())).then(()=>setIsLoaded(true))
-
-}, [dispatch]);
 
 
 
@@ -84,3 +87,4 @@ export default ManageSpots;
 
 
 //onClick={history.push(`/spots/${spot.id}/edit`)}
+//.then(()=>dispatch(restoreUser()))

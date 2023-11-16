@@ -27,8 +27,8 @@ function CreateASpot() {
   const [image4,setImage4]=useState("");
   const [errors, setErrors] = useState({});
   const [validationErrors, setValidationErrors]=useState({});
-
-
+  const user= useSelector((state) => state.session.user);
+  if(!user){return history.push(`/`)};
   const handleSubmit = (e) => {
     e.preventDefault();
     setValidationErrors({});
