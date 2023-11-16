@@ -3,7 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_SPOTS = "spots/getSpots";
 const GET_DETAILS="spots/spotDetails";
 const RECEIVE_SPOT="spots/createNew"
-
+const UPDATE_SPOT="spots/updateSpot"
 
 const getSpots = (spots) => {
   return {
@@ -25,6 +25,14 @@ const receiveSpot=(data)=>{
     type: RECEIVE_SPOT,
     data
 }
+}
+
+const updateSpot=(data,theId)=>{
+
+  return{
+    type:UPDATE_SPOT,
+    data,theId
+  }
 }
 
 export const fetchSpots = () => async (dispatch) => {
@@ -75,7 +83,7 @@ if (res.ok){
 
 
     const imagesObj=images.images
-    
+
 if(imagesObj.image1){
   const imgRes1=await csrfFetch (`/api/spots/${spotId}/images`, {
     method: "POST",
@@ -160,7 +168,27 @@ return res;
 
 }
 
+export const updateTheSpot=(payload,allImages,id)=> async(dispatch)=>{
 
+payload.payload.previewImage=allImages.allImages;
+const newPayload=payload.payload;
+const theId=id.id;
+console.log(newPayload)
+
+  const response=await csrfFetch(`/api/spots/${theId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newPayload),
+});
+if(response.ok ){
+  const data = await response.json();
+  console.log(data)
+  dispatch(updateSpot(data, theId));
+return data
+}
+
+return response
+}
 
 const spotsReducer = (state={}, action) => {
     switch (action.type) {
@@ -175,7 +203,8 @@ case GET_DETAILS:
   case RECEIVE_SPOT:
     return { ...state, [action.data.id]: action.data };
 
-
+case UPDATE_SPOT:
+  return {...state, [action.theId]: action.data}
         default:
             return state;
     }

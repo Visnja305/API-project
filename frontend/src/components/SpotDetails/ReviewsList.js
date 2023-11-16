@@ -21,9 +21,23 @@ useEffect(()=>{
 dispatch(getSpotReviews(spotId)).then(()=>setIsLoading(false));
 },[dispatch,spotId])
 
+
+let reviewArr=[];
+
+if(!isLoading){
+    for(let i=Object.values(reviews)[0].length-1;i>=0;i--){
+reviewArr.push(Object.values(reviews)[0][i]);
+
+ }
+}
+!isLoading && console.log(reviewArr)
+
+
+
 return  (
   <div>
- <ul>{!isLoading && Object.values(reviews)[0].map(review=>(
+ <ul>
+ {!isLoading && reviewArr.map(review=>(
 <li key={review.id}>
     {console.log(review.User.firstName)}
 {review.User.firstName}
@@ -33,7 +47,8 @@ return  (
 <p>{review.review}</p>
     </li>
 
- ))} </ul>
+ ))}
+     </ul>
   </div>
 
 
@@ -45,3 +60,5 @@ return  (
 
 
 export default ReviewsList;
+
+

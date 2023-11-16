@@ -6,9 +6,9 @@ import "./EditPage.css";
 import { createNewSpot } from "../../store/spotsReducer";
 import { useHistory, useParams} from 'react-router-dom';
 import {getSpotDetails}  from "../../store/spotsReducer";
-
+import {updateTheSpot} from "../../store/spotsReducer";
 function EditPage() {
-
+const history=useHistory();
     const { id } = useParams();
     const dispatch=useDispatch();
     const details=useSelector((state)=>state.spotsState[id])
@@ -34,7 +34,10 @@ const [loaded, setLoaded] = useState(false);
 
 
   useEffect(() => {
-    dispatch(getSpotDetails(id)).then(setLoaded(true)).then(()=>{setCountry(details.country);
+    dispatch(getSpotDetails(id)).then(setLoaded(true)).then(()=>{
+
+        if(details){
+    setCountry(details.country);
     setAddress(details.address);
     setCity(details.city);
     setState(details.state);
@@ -43,33 +46,46 @@ const [loaded, setLoaded] = useState(false);
     setDescription(details.description);
     setName(details.name);
     setPrice(details.price);
-    setPreviewImage("");
-    setImage1("");
-    setImage2("");
-    setImage3("");
-    setImage4("");
-console.log(details)
-})
+
+    if(details.previewImage){
 
 
+        setPreviewImage(details.previewImage[0]);
+        if(details.previewImage[1]){
+        setImage1(details.previewImage[1]);
+        }
+        if(details.previewImage[2]){
+        setImage2(details.previewImage[2]);
+        }
+        if(details.previewImage[3]){
+        setImage3(details.previewImage[3]);
+        }
+        if(details.previewImage[4]){
+        setImage4(details.previewImage[4]);
+        }
+    }
+
+        }
 
 
-          }, [dispatch]);
-
-
-const handleSubmit=(e)=>{
-    console.log("submitted")
 }
-/*
+)
+
+ }, [dispatch]);
+
+
+
+
+
+
+
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setValidationErrors({});
 const err = {};
-        if (!previewImage.length){
-            err.previewImage = "Preview Image is required";
 
-        setValidationErrors(err);
-    return}
 
     if(image1.length && image1.slice(-4)!==".png" && image1.slice(-4)!==".jpg" && image1.slice(-5)!==".jpeg"){
         err.image1 = "Image URL must end in .png, .jpg, or .jpeg";
@@ -109,9 +125,10 @@ if(image1){images.image1=image1};
 if(image2){images.image2=image2};
 if(image3){images.image3=image3};
 if(image4){images.image4=image4};
+const existingImages=Object.values(images);
+const allImages=[previewImage, ...existingImages];
 
-let theId
-   dispatch(createNewSpot({ payload},{previewImage},{images})).then(newSpot=>history.push(`/spots/${newSpot.id}`)).catch(
+   dispatch(updateTheSpot({ payload},{allImages},{id})).then(()=>history.push(`/spots/${id}`)).catch(
       async (res) => {
 
         const myData = await res.json();
@@ -126,11 +143,11 @@ let theId
 
 }
 
-*/
+
 
   return (
     <>
-    <h1>Create a spot</h1>
+    <h1>Update your Spot</h1>
     <h2>Where's your place located?</h2>
     <h3>Guests will only get your exact address once they booked a reservation.</h3>
      <form onSubmit={handleSubmit}>
@@ -282,7 +299,7 @@ let theId
              />
              <div className="errors">{validationErrors.image4}</div>
 
-            <button type="submit" >Create Spot</button>
+            <button type="submit" >Update Spot</button>
         </form>
         </>
   );
