@@ -10,32 +10,32 @@ module.exports = {
 
       await Image.bulkCreate([
         {
-          url:"https://tinyurl.com/3bpnpzpx",
+          url:"https://www.tkimages.com/wp-content/uploads/2023/05/Isles-End-526-IMG-44_1_1.jpg",
           preview:true,
           imageableId:3,
           imageableType:"Review",
 
   },
         {
-          url:"https://tinyurl.com/yc7afs2b",
+url:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Mapikela_House.jpeg/640px-Mapikela_House.jpeg",
           preview:true,
           imageableId:2,
           imageableType:"Spot",
         },
         {
-          url:"https://tinyurl.com/mr34cay2",
+          url:"https://res.cloudinary.com/upwork-cloud/image/upload/c_scale,w_1000/v1692795195/catalog/1692507957126582272/xmdai1cgdxjuxy3ricp9.jpg",
           preview:true,
           imageableId:1,
           imageableType:"Spot",
         },
         {
-          url:"https://tinyurl.com/cnchjsdp",
+          url:"https://www.architecturalrecord.com/ext/resources/Issues/2021/02-February/Golden-Valley-Midcentury-Modern-House-02.jpg",
           preview:true,
           imageableId:1,
           imageableType:"Review",
         },
         {
-          url:"https://tinyurl.com/2fy5nfec",
+url:"https://tinyurl.com/ce9ra2fy",
           preview:true,
           imageableId:3,
           imageableType:"Spot",

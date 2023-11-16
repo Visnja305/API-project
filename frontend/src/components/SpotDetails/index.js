@@ -48,7 +48,10 @@ return  (
    (<div>
         <h1>{!isLoading && spot.name}</h1>
         <h3>{!isLoading && `${spot.city}, ${spot.state}, ${spot.country} `}</h3>
-        {!isLoading && spot.SpotImages.map((image)=>(
+        {!isLoading && spot.SpotImages && spot.SpotImages.map((image)=>(
+(<img src={image.url}/>)
+        ))}
+        {!isLoading && spot.previewImage && spot.previewImage.map((image)=>(
 (<img src={image.url}/>)
         ))}
         <div>
