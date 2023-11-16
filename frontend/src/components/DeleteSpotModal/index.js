@@ -11,7 +11,7 @@ import { useHistory} from 'react-router-dom';
 function DeleteSpotModal({props}) {
 
 const spotId=props.id;
-console.log(spotId)
+
   const history=useHistory();
 
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const [errors, setErrors] = useState({});
     <>
       <h1>Confirm Delete</h1>
       <h2>Are you sure you want to remove this spot from the listings?</h2>
-      
+
     <button onClick={deleteSpot}>Yes (Delete Spot)</button>
     <button onClick={closeModal}>No (Keep Spot)</button>
 

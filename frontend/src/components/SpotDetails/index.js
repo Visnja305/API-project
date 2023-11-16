@@ -1,9 +1,9 @@
 
 import {  useSelector, useDispatch } from "react-redux";
 import {useState,useEffect} from "react";
-import { useParams, Redirect, Route } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getSpotDetails } from "../../store/spotsReducer";
-import {getSpotReviews} from "../../store/spotsReducer";
+
 import "./SpotDetails.css";
 import ReviewsSegment from "./ReviewsSegment";
 import ReviewsList from "./ReviewsList";
@@ -42,13 +42,15 @@ const props={
     spotId:spotId,
     currUser:currUser
 }
-
+console.log(spot)
 
 return  (
    (<div>
         <h1>{!isLoading && spot.name}</h1>
         <h3>{!isLoading && `${spot.city}, ${spot.state}, ${spot.country} `}</h3>
-        {!isLoading && (<img src={spot.SpotImages[0].url}/>)}
+        {!isLoading && spot.SpotImages.map((image)=>(
+(<img src={image.url}/>)
+        ))}
         <div>
             <div>
             <h1>Hosted by {!isLoading && `${spot.Owner.firstName} ${spot.Owner.lastName}`}</h1>
@@ -91,3 +93,7 @@ return  (
 
 
 export default SpotDetails;
+
+
+
+//{!isLoading && (<img src={spot.SpotImages[0].url}/>)}

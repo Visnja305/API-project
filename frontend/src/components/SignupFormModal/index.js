@@ -117,8 +117,9 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
 import "./SignupForm.css";
-
+import { useHistory } from 'react-router-dom';
 function SignupFormModal() {
+  const history=useHistory();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -142,13 +143,14 @@ function SignupFormModal() {
           password,
         })
       )
-        .then(closeModal)
+        .then(closeModal).then(()=> history.push("/"))
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) {
             setErrors(data.errors);
           }
         });
+
     }
     return setErrors({
       confirmPassword: "Confirm Password field must be the same as the Password field"
@@ -159,68 +161,85 @@ function SignupFormModal() {
     <>
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
+        <ul>
+{errors && Object.values(errors).map((error)=>(
+
+  <li>{error}{`, `}</li>
+
+)
+
+
+
+)
+
+}
+</ul>
         <label>
           Email
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+
         <label>
           Username
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
+
         <label>
           First Name
           <input
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            placeholder="First Name"
             required
           />
         </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
+
         <label>
           Last Name
           <input
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            placeholder="Last Name"
             required
           />
         </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
+
         <label>
           Password
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+
         <label>
           Confirm Password
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm password"
             required
           />
         </label>
-        {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
-        )}
+
         <button type="submit">Sign Up</button>
       </form>
     </>
@@ -228,3 +247,28 @@ function SignupFormModal() {
 }
 
 export default SignupFormModal;
+
+
+/*
+
+ {errors.email && <p>{errors.email}</p>}
+      {errors.username && <p>{errors.username}</p>}
+      {errors.firstName && <p>{errors.firstName}</p>}
+      {errors.lastName && <p>{errors.lastName}</p>}
+      {errors.password && <p>{errors.password}</p>}
+      {errors.confirmPassword && (
+          <p>{errors.confirmPassword}</p>
+        )}
+
+
+*/
+
+
+/*
+<ul>
+          {errors && Object.keys(errors).map(error=>(
+        <li>{errors[error]}</li>))
+        }
+
+        </ul>
+*/

@@ -50,9 +50,12 @@ export const restoreUser = () => async (dispatch) => {
         password,
       }),
     });
+    
     const data = await response.json();
 
     dispatch(setUser(data.user));
+
+
     return response;
   };
 

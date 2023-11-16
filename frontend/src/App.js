@@ -43,7 +43,7 @@ import SpotsList from "./components/SpotsList";
 import SpotDetails from "./components/SpotDetails";
 import CreateASpot from "./components/CreateASpot";
 import ManageSpots from "./components/ManageSpots";
-import EditPage from "./components/EditPage"
+import EditPage from "./components/EditPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -67,6 +67,7 @@ function App() {
 <Route exact path="/spots/current">
 <ManageSpots />
           </Route>
+
 <Route exact path="/spots/new">
 <CreateASpot />
           </Route>
