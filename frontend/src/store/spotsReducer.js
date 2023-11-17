@@ -224,9 +224,12 @@ const spotsReducer = (state={}, action) => {
     switch (action.type) {
         case GET_SPOTS:
 const spotsState={...state};
+
+
 action.spots.Spots.forEach((spot)=>{
   spotsState[spot.id]=spot;
 })
+
         return spotsState;
 case GET_DETAILS:
   return {...state,[action.spot.id]:action.spot}
