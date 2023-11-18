@@ -513,6 +513,11 @@ res.status(500);
 }
 const newReview= await Review.create({userId:userId,spotId:parseInt(spotId),review:review,stars:stars})
 res.status(201)
+
+
+newReview.dataValues.User = req.user
+
+
 return res.json(newReview)
 });
 //delete a spot

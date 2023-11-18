@@ -35,10 +35,11 @@ let arr=[];
 if(!isLoading && currUser.user){
 
     for (let i=0;i<Object.values(reviews)[0].length;i++){
-       console.log(Object.values(reviews)[0])
+
 
     if (Object.values(reviews)[0][i].User.id===currUser.user.id){arr.push(Object.values(reviews)[0][i])}
-   }
+
+}
 
 }
 const props={
