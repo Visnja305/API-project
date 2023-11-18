@@ -11,7 +11,7 @@ import {deleteTheReview} from "../../store/reviewsReducer";
 
 
 function DeleteReviewModal({props}) {
-
+const history=useHistory();
     const spotId=props.spotId;
     const review=props.review;
 
@@ -28,7 +28,7 @@ const [errors, setErrors] = useState({});
   const deleteReview = (e) => {
 
     e.preventDefault();
-    dispatch(deleteTheReview(spotId,review)).then(closeModal).catch(async (res) => {
+    dispatch(deleteTheReview(spotId,review)).then(closeModal).then(()=>history.push(`/spots/${spotId}`)).catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
           setErrors(data.errors);

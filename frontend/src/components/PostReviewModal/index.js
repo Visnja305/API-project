@@ -34,7 +34,7 @@ const [rateColor,setColor]=useState(null)
       review:review,
       stars:stars
     }
-    dispatch(postReviewForSpot({ payload })).then(closeModal).catch(async (res) => {
+    dispatch(postReviewForSpot({ payload })).then(closeModal).then(()=>history.push(`/spots/${spotId}`)).catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
           setErrors(data.errors);
@@ -91,3 +91,11 @@ return(
 }
 
 export default PostReviewModal;
+
+
+/*
+
+.then(()=>history.push(`/spots/${spotId}`))
+
+
+*/

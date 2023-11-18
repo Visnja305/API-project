@@ -47,7 +47,7 @@ return  (
  {!isLoading && reviewArr.map(review=>(
 
 <li key={review.id}>
-{console.log(review)}
+
 {review.User.firstName}
 <br/>
 <span>{`${review.updatedAt.slice(5,7)} ${review.updatedAt.slice(0,4)} `}</span>
@@ -58,7 +58,7 @@ return  (
                 buttonText="Delete"
 
                 modalComponent={<DeleteReviewModal props={{spotId,review}}/>}
-                
+
               />}
 
 

@@ -68,8 +68,8 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+
   
-  console.log(credential)
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});

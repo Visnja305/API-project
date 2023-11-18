@@ -103,18 +103,23 @@ function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
   return (
-    <ul>
+<div className="header-container">
 
-      <li>
-        <NavLink exact to="/"><i class="fa-brands fa-airbnb" rotation={180} style={{color:"#fb0909",}}></i></NavLink>
-        
-      </li>
+
+       <span> <NavLink exact to="/"><i class="fa-brands fa-airbnb" rotation={180} style={{color:"#fb0909",}}></i></NavLink></span>
+
+<nav id="nav">
+
+<ul>
+
       {isLoaded && (
         <li>
           <ProfileButton user={sessionUser} />
         </li>
       )}
     </ul>
+    </nav>
+    </div >
   );
 }
 
