@@ -28,11 +28,12 @@ const [errors, setErrors] = useState({});
   const deleteReview = (e) => {
 
     e.preventDefault();
+
     dispatch(deleteTheReview(spotId,review)).then(closeModal).then(()=>history.push(`/spots/${spotId}`)).catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
+      const data = await res.json();
+      if (data && data.errors) {
+        setErrors(data.errors);
+      }
       });
   };
 

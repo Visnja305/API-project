@@ -21,9 +21,7 @@ const [errors, setErrors] = useState({});
 const [stars,setStars]=useState(null)
 const [rateColor,setColor]=useState(null)
 
-const func=async()=>{
-  await history.push(`/spots/${spotId}`)
-}
+
 
 
 

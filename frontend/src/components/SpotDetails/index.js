@@ -36,17 +36,18 @@ if(!isLoading && currUser.user){
 
     for (let i=0;i<Object.values(reviews)[0].length;i++){
 
-
+if(Object.values(reviews)[0][i]){
     if (Object.values(reviews)[0][i].User.id===currUser.user.id){arr.push(Object.values(reviews)[0][i])}
 
 }
+    }
 
 }
 const props={
     spotId:spotId,
     currUser:currUser
 }
-console.log(spot)
+
 
 return  (
    (<div>

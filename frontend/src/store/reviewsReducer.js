@@ -18,11 +18,11 @@ return{
 }
 
 }
-const deleteReview=(spotId, review)=>{
+const deleteReview=(spotId, reviewId,review)=>{
 
   return{
     type:DELETE_REVIEW,
-    spotId,review
+    spotId,reviewId
   }
 }
 
@@ -69,7 +69,7 @@ const reviewId=review.id
     if(response.ok ){
       const data = await response.json();
 
-      dispatch(deleteReview(spotId,review));
+      dispatch(deleteReview(spotId,reviewId,review));
     return data
     }
 
@@ -101,7 +101,23 @@ return newState
 
 case DELETE_REVIEW:
   const nState = { ...state };
-            delete nState.entries[action.spotId][action.review]
+
+
+const arr=nState.entries[action.spotId].Reviews;
+for(let i=0;i<arr.length;i++){
+  if(arr[i]){
+  if(arr[i].id===action.reviewId){
+    delete arr[i]
+  }
+}
+}
+//delete nState.entries[action.spotId].Reviews[0].find((rev)=>rev.id===action.reviewId
+
+//);
+
+
+
+           // delete nState.entries[action.spotId].Reviews[action.reviewId]
             return nState;
 
 

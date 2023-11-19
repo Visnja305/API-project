@@ -33,8 +33,9 @@ let reviewArr=[];
 
 if(!isLoading){
     for(let i=Object.values(reviews)[0].length-1;i>=0;i--){
+        if(Object.values(reviews)[0][i]){
 reviewArr.push(Object.values(reviews)[0][i]);
-
+        }
  }
 }
 
@@ -44,7 +45,7 @@ reviewArr.push(Object.values(reviews)[0][i]);
 return  (
   <div>
  <ul>
- {!isLoading && reviewArr.map(review=>(
+ {!isLoading && reviewArr.map(review=> (
 
 <li key={review.id}>
 
@@ -64,7 +65,7 @@ return  (
 
     </li>
 
- ))}
+ ) )}
      </ul>
   </div>
 
