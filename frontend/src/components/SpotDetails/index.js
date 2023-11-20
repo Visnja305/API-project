@@ -49,6 +49,30 @@ const props={
 }
 
 
+
+let sum=0;
+let count=0;
+
+if(!isLoading){
+
+    for (let i=0;i<Object.values(reviews)[0].length;i++){
+
+if(Object.values(reviews)[0][i]){
+
+    sum+=Object.values(reviews)[0][i].stars;
+    count++
+}
+    }
+
+}
+
+let averageStarRating=sum/count;
+
+
+
+
+
+
 return  (
    (<div>
         <h1>{!isLoading && spot.name}</h1>
@@ -66,13 +90,13 @@ return  (
 </div>
         <div>
             <h3>{!isLoading && `$ ${spot.price} night`}</h3>
-            <h3><i className="fa-solid fa-star" />{!isLoading && !spot.avgRating && "New" }{!isLoading && spot.avgRating }</h3>
+            <h3><i className="fa-solid fa-star" />{!isLoading && count===0 && "New" }{!isLoading && count!==0 && averageStarRating }</h3>
            <ReviewsSegment props={spotId}/>
            <button onClick={handleClick} >Reserve</button>
 
         </div>
         </div>
-        <h3><i className="fa-solid fa-star" />{!isLoading && !spot.avgRating && "New" }{!isLoading && spot.avgRating }</h3>
+        <h3><i className="fa-solid fa-star" />{!isLoading && count===0 && "New" }{!isLoading && count!==0 && averageStarRating }</h3>
            <ReviewsSegment props={spotId}/>
            <div>
 

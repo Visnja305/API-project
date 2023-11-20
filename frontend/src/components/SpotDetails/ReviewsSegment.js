@@ -23,9 +23,12 @@ dispatch(getSpotReviews(spotId)).then(()=>setIsLoading(false));
 
 
 
+
+
+
 return  (
   <div>
- <h3>{!isLoading && Object.values(reviews)[0].length===0 && ""}{!isLoading && Object.values(reviews)[0].length===1 && `${Object.values(reviews)[0].length} review`}{!isLoading && Object.values(reviews)[0].length>1 && `${Object.values(reviews)[0].length} reviews`}</h3>
+ <h3>{!isLoading && Object.values(reviews)[0].filter(a=>a).length===0 && ""}{!isLoading && Object.values(reviews)[0].filter(a=>a).length===1 && `${Object.values(reviews)[0].filter(a=>a).length} review`}{!isLoading && Object.values(reviews)[0].filter(a=>a).length>1 && `${Object.values(reviews)[0].filter(a=>a).length} reviews`}</h3>
 
   </div>
 
