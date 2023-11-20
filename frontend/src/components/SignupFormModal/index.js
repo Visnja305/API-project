@@ -181,7 +181,7 @@ function SignupFormModal() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
-            required
+
           />
         </label>
 
@@ -192,7 +192,7 @@ function SignupFormModal() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
-            required
+
           />
         </label>
 
@@ -203,7 +203,7 @@ function SignupFormModal() {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             placeholder="First Name"
-            required
+
           />
         </label>
 
@@ -214,7 +214,7 @@ function SignupFormModal() {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             placeholder="Last Name"
-            required
+
           />
         </label>
 
@@ -225,7 +225,7 @@ function SignupFormModal() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
-            required
+
           />
         </label>
 
@@ -236,7 +236,7 @@ function SignupFormModal() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm password"
-            required
+            
           />
         </label>
 
