@@ -66,7 +66,7 @@ export const getSpotDetails=(spotId)=>async(dispatch)=>{
 
 export const createNewSpot=(payload,previewImage,images)=> async(dispatch)=>{
 
-  const res = await csrfFetch ("/api/spots", {
+  const res = await fetch ("/api/spots", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload.payload),
@@ -78,7 +78,7 @@ if (res.ok){
     const spotId=data.id;
 
 
-    const response=await csrfFetch (`/api/spots/${spotId}/images`, {
+    const response=await fetch (`/api/spots/${spotId}/images`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({url:previewImage.previewImage, preview:true}),
@@ -93,7 +93,7 @@ if (res.ok){
     const imagesObj=images.images
 
 if(imagesObj.image1){
-  const imgRes1=await csrfFetch (`/api/spots/${spotId}/images`, {
+  const imgRes1=await fetch (`/api/spots/${spotId}/images`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({url:imagesObj.image1, preview:true}),
@@ -108,7 +108,7 @@ if(imgRes1.ok){
 }
 
 if(imagesObj.image2){
-  const imgRes2=await csrfFetch (`/api/spots/${spotId}/images`, {
+  const imgRes2=await fetch (`/api/spots/${spotId}/images`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({url:imagesObj.image2, preview:true}),
@@ -124,7 +124,7 @@ if(imgRes2.ok){
 
 
 if(imagesObj.image3){
-  const imgRes3=await csrfFetch (`/api/spots/${spotId}/images`, {
+  const imgRes3=await fetch (`/api/spots/${spotId}/images`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({url:imagesObj.image3, preview:true}),
@@ -139,7 +139,7 @@ if(imgRes3.ok){
 }
 
 if(imagesObj.image4){
-  const imgRes4=await csrfFetch (`/api/spots/${spotId}/images`, {
+  const imgRes4=await fetch (`/api/spots/${spotId}/images`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({url:imagesObj.image4, preview:true}),
@@ -156,7 +156,7 @@ if(imgRes4.ok){
 
 
 
-const theSpot = await csrfFetch(`/api/spots/${spotId}`);
+const theSpot = await fetch(`/api/spots/${spotId}`);
 if(theSpot.ok){
     const newSpot = await theSpot.json();
     dispatch(receiveSpot(newSpot))
