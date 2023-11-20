@@ -7,7 +7,7 @@ import "./SpotsList.css";
 const SpotsList = () => {
     const dispatch = useDispatch();
     const spots= useSelector((state) => state.spotsState);
-console.log(spots)
+
     const spotsS=Object.values(spots);
     const [isLoaded,setIsLoaded]=useState(false)
 
