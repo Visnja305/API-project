@@ -156,7 +156,7 @@ if(imgRes4.ok){
 
 
 
-const theSpot = await fetch(`/api/spots/${spotId}`);
+const theSpot = await csrfFetch(`/api/spots/${spotId}`);
 if(theSpot.ok){
     const newSpot = await theSpot.json();
     dispatch(receiveSpot(newSpot))
