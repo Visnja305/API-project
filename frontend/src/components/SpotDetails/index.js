@@ -53,7 +53,7 @@ const props={
 let sum=0;
 let count=0;
 
-if(!isLoading){
+if(!isLoading && reviews){
 
     for (let i=0;i<Object.values(reviews)[0].length;i++){
 
