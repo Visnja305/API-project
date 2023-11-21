@@ -370,22 +370,11 @@ router.post("/",requireAuth,validateData,async(req,res,next)=>{
     const {user}=req;
 const userId=user.id;
     const {address,city,state,country,lat,lng,name,description,price}=req.body;
-if(!lat && lng){ const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,lat:1,lng:lng,name:name,description:description,price:price});
+
+const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,lat:0,lng:0,name:name,description:description,price:price});
 res.status(201)
-     return res.json(newSpot);
-}
-if(lat && !lng) {const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,lat:lat,lng:1,name:name,description:description,price:price});
-res.status(201)
-    return res.json(newSpot);
-}
- if(!lat && !lng){ const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,lat:1,lng:1,name:name,description:description,price:price});
- res.status(201)
- return res.json(newSpot);
-}
-if(lat && lng){const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,lat:lat,lng:lng,name:name,description:description,price:price});
-res.status(201)
-     return res.json(newSpot);
-}
+     res.json(newSpot);
+
 
 
 
