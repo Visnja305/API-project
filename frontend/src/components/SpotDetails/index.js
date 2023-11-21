@@ -32,7 +32,7 @@ const currUser=useSelector((state) => state.session);
 const currSpot=useSelector((state)=>state.spotsState[spotId]);
 const reviews= useSelector((state) => state.reviewsState.entries[spotId]);
 let arr=[];
-if(!isLoading && currUser.user){
+if(!isLoading && currUser.user && reviews ){
 
     for (let i=0;i<Object.values(reviews)[0].length;i++){
 
