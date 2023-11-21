@@ -74,8 +74,8 @@ const err = {};
 
 
     setErrors({});
-if(!lat){setLat("0")};
-if(!lng){setLng("0")};
+if(!lat){setLat(1)};
+if(!lng){setLng(1)};
 
     const payload={
         country, address, city, state, lat, lng, description, name, price
