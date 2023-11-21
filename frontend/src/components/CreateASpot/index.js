@@ -15,8 +15,8 @@ function CreateASpot() {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -74,6 +74,8 @@ const err = {};
 
 
     setErrors({});
+if(!lat){setLat(0)}
+if(!lng){setLng(0)}
 
     const payload={
         country, address, city, state, lat, lng, description, name, price
@@ -102,8 +104,8 @@ setCountry("");
 setAddress("");
 setCity("");
 setState("");
-setLat(0);
-setLng(0);
+setLat("");
+setLng("");
 setDescription("");
 setName("");
 setPrice("");
