@@ -92,7 +92,7 @@ if(imagesObj.image1){
   const imgRes1=await csrfFetch (`/api/spots/${spotId}/images`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({url:imagesObj.image1, preview:false}),
+    body: JSON.stringify({url:imagesObj.image1, preview:true}),
 });
 
 if(imgRes1.ok){
@@ -107,7 +107,7 @@ if(imagesObj.image2){
   const imgRes2=await csrfFetch (`/api/spots/${spotId}/images`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({url:imagesObj.image2, preview:false}),
+    body: JSON.stringify({url:imagesObj.image2, preview:true}),
 });
 
 if(imgRes2.ok){
@@ -123,7 +123,7 @@ if(imagesObj.image3){
   const imgRes3=await csrfFetch (`/api/spots/${spotId}/images`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({url:imagesObj.image3, preview:false}),
+    body: JSON.stringify({url:imagesObj.image3, preview:true}),
 });
 
 if(imgRes3.ok){
@@ -138,7 +138,7 @@ if(imagesObj.image4){
   const imgRes4=await csrfFetch (`/api/spots/${spotId}/images`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({url:imagesObj.image4, preview:false}),
+    body: JSON.stringify({url:imagesObj.image4, preview:true}),
 });
 
 if(imgRes4.ok){
