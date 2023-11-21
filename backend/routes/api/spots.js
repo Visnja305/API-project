@@ -21,9 +21,8 @@ const validateData = [
       .exists({ checkFalsy: true })
       .withMessage("Country is required"),
       check('lat')
-.exists({ checkFalsy: true })
 .optional({ checkFalsy: true })
-
+.exists({ checkFalsy: true })
 .isFloat({min:-90,max:90})
 .withMessage("Latitude is not valid"),
 check('lng')
@@ -372,18 +371,10 @@ router.post("/",requireAuth,validateData,async(req,res,next)=>{
 const userId=user.id;
     const {address,city,state,country,lat,lng,name,description,price}=req.body;
 
-    if(lat && !lng){
-        const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,lat:lat,name:name,description:description,price:price});
-    }
-    if(!lat && lng){
-        const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,lng:lng,name:name,description:description,price:price});
-    }
-if (lat && lng){
+
     const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,lat:lat,lng:lng,name:name,description:description,price:price});
-}
-if(!lat && !lng){
-    const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,name:name,description:description,price:price});
-}
+
+
 
 res.status(201)
      res.json(newSpot);
@@ -788,5 +779,25 @@ check('lng')
 .exists({ checkFalsy: true })
 .isFloat({min:-180,max:180})
 .withMessage("Longitude is not valid"),
+
+*/
+
+
+
+/*
+
+
+    if(lat && !lng){
+        const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,lat:lat,name:name,description:description,price:price});
+    }
+    if(!lat && lng){
+        const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,lng:lng,name:name,description:description,price:price});
+    }
+if (lat && lng){
+    const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,lat:lat,lng:lng,name:name,description:description,price:price});
+}
+if(!lat && !lng){
+    const newSpot=await Spot.create({ownerId:userId,address:address,city:city,state:state,country:country,name:name,description:description,price:price});
+}
 
 */
