@@ -45,3 +45,5 @@ const SpotsList = () => {
 };
 
 export default SpotsList;
+
+//check
