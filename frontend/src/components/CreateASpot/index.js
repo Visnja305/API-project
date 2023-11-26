@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import "./CreateASpot.css";
 import { createNewSpot } from "../../store/spotsReducer";
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 
 
 function CreateASpot() {
@@ -85,7 +85,7 @@ if(image2){images.image2=image2};
 if(image3){images.image3=image3};
 if(image4){images.image4=image4};
 
-let theId
+
    dispatch(createNewSpot({ payload},{previewImage},{images})).then(newSpot=>history.push(`/spots/${newSpot.id}`)).catch(
       async (res) => {
 

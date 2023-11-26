@@ -99,26 +99,30 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
+import image from "./logo/places.png"
+
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
   return (
 <div className="header-container">
+<div>
+
+       <span> <NavLink exact to="/"><img id="logo"src={image}/></NavLink></span>
+</div>
 
 
-       <span> <NavLink exact to="/"><i class="fa-brands fa-airbnb" rotation={180} style={{color:"#fb0909",}}></i></NavLink></span>
 
-<nav id="nav">
-
-<ul>
+<div id="the-profile-button">
 
       {isLoaded && (
-        <li>
+
           <ProfileButton user={sessionUser} />
-        </li>
+
       )}
-    </ul>
-    </nav>
+
+</div>
+
     </div >
   );
 }

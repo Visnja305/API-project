@@ -1,0 +1,13 @@
+#logo{
+    width:150px;
+    height:100px;
+}
+.header-container{
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    height:100px;
+    margin-bottom: 200px;
+    margin-right: 100px;
+
+}
