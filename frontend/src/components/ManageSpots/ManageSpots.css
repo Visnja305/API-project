@@ -11,3 +11,7 @@ grid-template-columns: repeat(4,1fr);
     height: 300px;
 }
 
+.manage-spot-inner-div{
+    display:flex;
+    justify-content: space-between;
+}

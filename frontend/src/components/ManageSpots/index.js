@@ -49,10 +49,12 @@ return  (
 
 <Link to={`/spots/${spot.id}`}> <img id="manage-spot" src={spot.previewImage[0]}/>
               <br/>
-              <span>{spot.city} {spot.state} <i className="fa-solid fa-star" />
+              <div className="manage-spot-inner-div">
+                <div>{spot.city} {spot.state} </div>
+                <div><i className="fa-solid fa-star" />
               {spot.avgRating && spot.avgRating.toFixed(2)}
-             {!spot.avgRating && `New`}
-            </span>
+             {!spot.avgRating && `New`}</div>
+            </div>
               <br/>
               <span>${spot.price} night</span></Link>
              <div> <span><button onClick={(e)=>history.push(`/spots/${spot.id}/edit`)}>Update</button>
