@@ -1,0 +1,13 @@
+#yes-delete-review{
+background-color: red;
+color:white;
+}
+#no-keep-review{
+background-color: darkgray;
+color:white;
+}
+.delete-review-window{
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+}

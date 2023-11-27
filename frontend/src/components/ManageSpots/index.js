@@ -15,7 +15,7 @@ const ManageSpots = () => {
     const user= useSelector((state) => state.session.user);
     const spots= useSelector((state) => state.spotsState);
 
-    
+
     useEffect(() => {
 
         dispatch(fetchSpots()).then(()=>setIsLoaded(true))
@@ -43,15 +43,18 @@ return  (
     <>
     <h1>Manage Your Spots</h1>
     <NavLink to="/spots/new">Create a new spot</NavLink>
-    <ul>
+    <ul className="manage-spots-container">
 {isLoaded && arr.map((spot)=>(
 <li key={spot.id}>
 
-<Link to={`/spots/${spot.id}`}> <img src={spot.previewImage[0]}/></Link>
+<Link to={`/spots/${spot.id}`}> <img id="manage-spot" src={spot.previewImage[0]}/>
               <br/>
-              <span>{spot.city} {spot.state} <i className="fa-solid fa-star" /> {spot.avgRating}</span>
+              <span>{spot.city} {spot.state} <i className="fa-solid fa-star" />
+              {spot.avgRating && spot.avgRating.toFixed(2)}
+             {!spot.avgRating && `New`}
+            </span>
               <br/>
-              <span>${spot.price} night</span>
+              <span>${spot.price} night</span></Link>
              <div> <span><button onClick={(e)=>history.push(`/spots/${spot.id}/edit`)}>Update</button>
 
              <OpenModalButton

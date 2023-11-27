@@ -51,7 +51,7 @@ return  (
 
 {review.User.firstName}
 <br/>
-<span>{`${review.updatedAt.slice(5,7)} ${review.updatedAt.slice(0,4)} `}</span>
+<span>{`${review.updatedAt.slice(5,7)}/${review.updatedAt.slice(0,4)} `}</span>
 <br/>
 <p>{review.review}</p>
 { !isLoading  && currUserId===review.userId &&

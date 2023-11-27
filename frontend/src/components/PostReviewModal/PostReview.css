@@ -2,3 +2,13 @@
 .radio_item{
     display: none !important;
     }
+#submit-review-button{
+    background-color: red;
+    color:white;
+
+}
+#submit-review-button[disabled]{
+
+    background-color: #cccccc;
+
+  }

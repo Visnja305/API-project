@@ -8,6 +8,7 @@ import { useModal } from "../../context/Modal";
 import {deleteTheSpot} from "../../store/spotsReducer";
 
 import { useHistory} from 'react-router-dom';
+import "./DeleteSpotModal.css";
 function DeleteSpotModal({props}) {
 
 const spotId=props.id;
@@ -39,14 +40,14 @@ const [errors, setErrors] = useState({});
 
 
   return (
-    <>
+    <div className="delete-spot-window">
       <h1>Confirm Delete</h1>
       <h2>Are you sure you want to remove this spot from the listings?</h2>
 
-    <button onClick={deleteSpot}>Yes (Delete Spot)</button>
-    <button onClick={closeModal}>No (Keep Spot)</button>
+    <button id="yes-delete-spot"onClick={deleteSpot}>Yes (Delete Spot)</button>
+    <button id="no-keep-spot" onClick={closeModal}>No (Keep Spot)</button>
 
-    </>
+    </div>
   );
 }
 

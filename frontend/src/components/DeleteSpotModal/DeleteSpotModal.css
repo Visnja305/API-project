@@ -1,0 +1,13 @@
+#yes-delete-spot{
+    background-color: red;
+    color:white;
+    }
+    #no-keep-spot{
+    background-color: darkgray;
+    color:white;
+    }
+    .delete-spot-window{
+        display:flex;
+        flex-direction:column;
+        align-items: center;
+    }

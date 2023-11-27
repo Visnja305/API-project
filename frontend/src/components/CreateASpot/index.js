@@ -99,32 +99,20 @@ if(image4){images.image4=image4};
 
 });
 
-setCountry("");
-setAddress("");
-setCity("");
-setState("");
-setLat("");
-setLng("");
-setDescription("");
-setName("");
-setPrice("");
-setPreviewImage("");
-setImage1("");
-setImage2("");
-setImage3("");
-setImage4("");
+
 }
 
 
 
   return (
-    <>
+    <div className="create-a-spot">
     <h1>Create a spot</h1>
     <h2>Where's your place located?</h2>
     <h3>Guests will only get your exact address once they booked a reservation.</h3>
      <form onSubmit={handleSubmit}>
 
             <div className="errors">{errors.country}</div>
+           <div className="input-fields-1">
             <label>
                 Country:
                 <input
@@ -184,6 +172,8 @@ setImage4("");
                     placeholder="Longitude"
                 />
             </label>
+            </div>
+            <div className="input-fields-2">
             <h2>Describe your place to guests</h2>
             <h3>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</h3>
 
@@ -226,7 +216,8 @@ setImage4("");
             <div className="errors">{errors.price}</div>
             <h2>Liven up your spot with photos</h2>
             <h3>Submit a link to at least one photo to publish your spot.</h3>
-
+</div>
+<div className="input-fields-3">
               <label>
                 Preview Image:
             <input
@@ -271,9 +262,12 @@ setImage4("");
              />
              <div className="errors">{validationErrors.image4}</div>
 
-            <button type="submit" >Create Spot</button>
+            <button id="submit-for-create-spot"type="submit" >Create Spot</button>
+</div>
         </form>
-        </>
+        </div>
+
+
   );
 }
 
@@ -281,3 +275,21 @@ export default CreateASpot;
 
 
 //if () return (<Redirect to="/" />);
+
+
+/*
+setCountry("");
+setAddress("");
+setCity("");
+setState("");
+setLat("");
+setLng("");
+setDescription("");
+setName("");
+setPrice("");
+setPreviewImage("");
+setImage1("");
+setImage2("");
+setImage3("");
+setImage4("");
+*/

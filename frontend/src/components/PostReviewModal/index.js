@@ -68,6 +68,7 @@ return(
   }/>
   <FaStar size={50} color={currentRate <= (rateColor || stars) ? "yellow" : "grey"}/>
 </label>
+
   </>
 )
 }
@@ -75,6 +76,7 @@ return(
 
 
 )}
+<span>Stars</span>
     </div>
 
 
@@ -83,7 +85,7 @@ return(
 
 
 
-        <button type="submit" disabled={ review.length<=9 || !stars}>Submit</button>
+        <button id="submit-review-button" type="submit" disabled={ review.length<=9 || !stars}>Submit Your Review</button>
 
       </form>
     </>

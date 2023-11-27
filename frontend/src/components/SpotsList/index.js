@@ -37,7 +37,8 @@ const SpotsList = () => {
               <br/>
               <div className="under-image-container">
               <p>{spot.state} {spot.city}</p>
-              <p><i className="fa-solid fa-star" /> {spot.avgRating}</p>
+              {spot.avgRating && <p><i className="fa-solid fa-star" /> {spot.avgRating.toFixed(2)}</p>}
+              {!spot.avgRating && <p><i className="fa-solid fa-star" /> New</p>}
               </div>
 
               <p>${spot.price} night</p>

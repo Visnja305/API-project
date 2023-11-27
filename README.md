@@ -58,4 +58,5 @@ PlacesBnb was built using the following technologies:
 
 ## Demo
 
-Screenshot to come....
+
+![demo](image/demo.png)

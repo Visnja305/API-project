@@ -8,7 +8,7 @@ import { useHistory} from 'react-router-dom';
 
 
 import {deleteTheReview} from "../../store/reviewsReducer";
-
+import "./DeleteReviewModal.css";
 
 function DeleteReviewModal({props}) {
 const history=useHistory();
@@ -43,14 +43,14 @@ const [errors, setErrors] = useState({});
 
 
   return (
-    <>
+
+    <div className="delete-review-window">
       <h1>Confirm Delete</h1>
       <h2> Are you sure you want to delete this review?</h2>
 
-    <button onClick={deleteReview}>Yes (Delete Review)</button>
-    <button onClick={closeModal}>No (Keep Review)</button>
-
-    </>
+    <button id="yes-delete-review"onClick={deleteReview}>Yes (Delete Review)</button>
+    <button id="no-keep-review" onClick={closeModal}>No (Keep Review)</button>
+    </div>
   );
 }
 

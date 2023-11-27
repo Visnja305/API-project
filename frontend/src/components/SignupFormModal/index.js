@@ -158,10 +158,10 @@ function SignupFormModal() {
   };
 
   return (
-    <>
+    <div className="sign-up-modal">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        <ul>
+        <ul id="list-of-errors-signup">
 {errors && Object.values(errors).map((error)=>(
 
   <li>{error}{`, `}</li>
@@ -174,6 +174,7 @@ function SignupFormModal() {
 
 }
 </ul>
+<div>
         <label>
           Email
           <input
@@ -184,7 +185,8 @@ function SignupFormModal() {
 
           />
         </label>
-
+</div>
+<div>
         <label>
           Username
           <input
@@ -195,7 +197,8 @@ function SignupFormModal() {
 
           />
         </label>
-
+</div>
+<div>
         <label>
           First Name
           <input
@@ -206,7 +209,8 @@ function SignupFormModal() {
 
           />
         </label>
-
+</div>
+<div>
         <label>
           Last Name
           <input
@@ -217,7 +221,8 @@ function SignupFormModal() {
 
           />
         </label>
-
+        </div>
+        <div>
         <label>
           Password
           <input
@@ -228,7 +233,8 @@ function SignupFormModal() {
 
           />
         </label>
-
+</div>
+<div>
         <label>
           Confirm Password
           <input
@@ -236,13 +242,15 @@ function SignupFormModal() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm password"
-            
+
           />
         </label>
-
-        <button type="submit">Sign Up</button>
+</div>
+<div>
+        <button id="submit-for-signup" type="submit">Sign Up</button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 

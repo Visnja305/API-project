@@ -1,0 +1,14 @@
+.sign-up-modal{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width:500px;
+    height:500px;
+}
+#submit-for-signup{
+    background-color: red;
+    color:white;
+}
+#list-of-errors-signup{
+    color:red
+}
